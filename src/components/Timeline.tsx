@@ -5,34 +5,47 @@ import { useRef } from "react";
 
 const TIMELINE_DATA = [
   {
-    year: "2024 - Present",
-    title: "Full Stack Developer",
-    org: "Freelance & Open Source",
-    description: "Architecting enterprise-scale applications like 'Elite Hotel' (Microservices) and 'Nxtcart' (E-commerce). Expertise in Next.js, Docker, Kubernetes, and Cloud Architecture.",
-    type: "work",
+    year: "2023 - 2027",
+    title: "Beginning of My Tech Journey",
+    org: "JIET University, Jodhpur",
+    description: "Started B.Tech in Artificial Intelligence & Machine Learning at JIET University, Jodhpur. Focusing on building a strong foundation in core computer science and advanced AI concepts.",
+    tags: ["B.Tech AIML", "JIET University", "CGPA: 9.47"],
+    type: "education"
   },
   {
-    year: "2023",
-    title: "The Pivot to Tech",
-    org: "Self-Taught Journey",
-    description: "Graduated with a Bachelor of Commerce but discovered a passion for problem-solving. Dedicated 1000+ hours to mastering the MERN stack and software engineering fundamentals.",
-    type: "milestone",
+    year: "2024",
+    title: "First Major Achievement",
+    org: "JIET Universe",
+    description: "Recognized as the First-Year Course Topper and awarded a Gold Medal for Academic Excellence. Achieved a 9.2+ CGPA during the first year and maintained consistent academic performance throughout the program.",
+    tags: ["Gold Medalist", "Course Topper", "Academic Excellence"],
+    type: "milestone"
   },
   {
-    year: "2020 - 2023",
-    title: "Bachelor of Commerce",
-    org: "Calicut University",
-    description: "Graduated with a specialization in Co-operation. Developed a strong analytical mindset and understanding of business logic.",
-    type: "education",
+    year: "2024",
+    title: "Transition into AI & Machine Learning",
+    org: "Self-Directed Learning",
+    description: "Started exploring Machine Learning, NLP, and Generative AI through practical projects and online specializations from Stanford and Coursera. Developed an interest in building real-world AI systems.",
+    tags: ["Machine Learning", "NLP", "Generative AI", "Stanford"],
+    type: "milestone"
   },
   {
-    year: "2018 - 2020",
-    title: "Computer Applications",
-    org: "GHSS Tirurangadi",
-    description: "Higher Secondary in Commerce with Computer Applications. Early exposure to programming concepts which sparked my initial interest in tech.",
-    type: "education",
+    year: "2025",
+    title: "AI & Generative AI Internship",
+    org: "YBI Foundation",
+    description: "Worked on an LLM-powered herbal recommendation platform integrating conversational AI, intelligent search, and scalable backend systems. Optimized NLP-based disease matching for healthcare.",
+    tags: ["Internship", "LLM Apps", "Node.js", "AI Healthcare"],
+    type: "work"
   },
+  {
+    year: "2025 - 2026",
+    title: "Developing AI-Powered Platforms",
+    org: "Innovation Lab",
+    description: "Built multiple AI-driven systems including a Doctor Copilot, multi-agent research automation system, and crime analytics dashboard using AI, APIs, and data visualization.",
+    tags: ["SaaS Platform", "Multi-Agent AI", "Visualization", "Full Stack AI"],
+    type: "work"
+  }
 ];
+
 
 export default function Timeline() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -57,8 +70,7 @@ export default function Timeline() {
              My <span className="text-transparent bg-clip-text bg-linear-to-r from-blue-400 to-purple-400">Journey</span>
           </h2>
           <p className="text-gray-400 text-lg max-w-2xl mx-auto leading-relaxed">
-            From writing my first "Hello World" to building complex applications. 
-            Here is a glimpse into my professional evolution.
+            A chronological look at my academic excellence, professional growth, and specialized training in AI.
           </p>
         </motion.div>
 
@@ -113,9 +125,18 @@ function TimelineItem({ item, index }: { item: any; index: number }) {
           <p className="text-sm text-purple-300 mb-4 font-medium uppercase tracking-wider">
             {item.org}
           </p>
-          <p className="text-gray-400 text-sm leading-relaxed">
+          <p className="text-gray-400 text-sm leading-relaxed mb-6">
             {item.description}
           </p>
+
+          {/* Tags */}
+          <div className={`flex flex-wrap gap-2 ${isEven ? "md:justify-end" : "md:justify-start"}`}>
+            {item.tags?.map((tag: string) => (
+              <span key={tag} className="px-2.5 py-1 rounded-lg bg-white/5 border border-white/10 text-[10px] font-bold text-gray-300 uppercase tracking-tight">
+                {tag}
+              </span>
+            ))}
+          </div>
         </div>
       </div>
     </motion.div>

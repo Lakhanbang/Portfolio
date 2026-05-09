@@ -9,8 +9,8 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Scrollytelling Portfolio",
-  description: "A cinematic developer portfolio.",
+  title: "Lakhan's Portfolio",
+  description: "A cinematic scrolly-telling portfolio showcasing AI and Full Stack innovation.",
 };
 
 export default function RootLayout({

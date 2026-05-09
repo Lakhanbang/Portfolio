@@ -1,16 +1,25 @@
 "use client";
 
-import { useScroll, useSpring, useMotionValueEvent, motion, MotionValue } from "framer-motion";
-import { useEffect, useRef, ReactNode } from "react";
+import { useScroll, useSpring, useMotionValueEvent, motion, MotionValue, useTransform } from "framer-motion";
+import { useEffect, useRef, ReactNode, useState } from "react";
+
+interface VideoSource {
+  src: string;
+  start: number; // 0 to 1
+  end: number;   // 0 to 1
+  isLooping?: boolean;
+}
 
 interface ScrollyVideoProps {
-  src: string;
+  videos: VideoSource[];
   children?: (progress: MotionValue<number>) => ReactNode;
 }
 
-export default function ScrollyVideo({ src, children }: ScrollyVideoProps) {
+export default function ScrollyVideo({ videos, children }: ScrollyVideoProps) {
   const containerRef = useRef<HTMLDivElement>(null);
-  const videoRef = useRef<HTMLVideoElement>(null);
+
+  // Use a map of refs for multiple videos
+  const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
 
   // Scroll progress for the container
   const { scrollYProgress } = useScroll({
@@ -24,30 +33,54 @@ export default function ScrollyVideo({ src, children }: ScrollyVideoProps) {
     stiffness: 400,
   });
 
-  // Update video time based on scroll
+  // Update video times based on scroll
   useMotionValueEvent(springScroll, "change", (latest) => {
-    if (videoRef.current && videoRef.current.duration) {
-       // Check if duration is valid (readyState > 0)
-       if (videoRef.current.readyState > 0) {
-          videoRef.current.currentTime = latest * videoRef.current.duration;
-       }
-    }
+    videos.forEach((video, index) => {
+      const vRef = videoRefs.current[index];
+      if (vRef && vRef.duration && !video.isLooping) {
+        // Calculate relative progress for this specific video's range
+        const range = video.end - video.start;
+        const relativeProgress = Math.max(0, Math.min(1, (latest - video.start) / range));
+
+        if (vRef.readyState > 0) {
+          vRef.currentTime = relativeProgress * vRef.duration;
+        }
+      }
+    });
   });
 
   return (
-    <div ref={containerRef} className="relative h-[400vh]">
-      <div className="sticky top-0 h-screen w-full overflow-hidden">
-        <video
-          ref={videoRef}
-          src={src}
-          className="h-full w-full object-cover"
-          muted
-          playsInline
-          preload="auto"
-        />
+    <div ref={containerRef} className="relative h-[300vh]">
+      <div className="sticky top-0 h-screen w-full overflow-hidden bg-transparent">
+        {videos.map((video, index) => {
+          // Calculate opacity for this video based on scroll
+          // We'll use a small buffer for cross-fading (0.05)
+          const opacity = useTransform(
+            springScroll,
+            [video.start, video.start + 0.05, video.end - 0.05, video.end],
+            [0, 1, 1, 0]
+          );
+
+          return (
+            <motion.video
+              key={video.src}
+              ref={(el) => { videoRefs.current[index] = el; }}
+              src={video.src}
+              style={{ opacity }}
+              className="absolute inset-0 h-full w-full object-contain"
+              muted
+              playsInline
+              autoPlay={video.isLooping || true}
+              loop={video.isLooping}
+              preload="auto"
+            />
+          );
+        })}
+
         {/* Render children (Overlay) passing the springScroll value */}
         {children && children(springScroll)}
       </div>
     </div>
   );
 }
+

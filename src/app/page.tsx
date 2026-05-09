@@ -4,16 +4,14 @@ import Skills from "@/components/Skills";
 import Timeline from "@/components/Timeline";
 import Dock from "@/components/Dock";
 import Contact from "@/components/Contact";
-import Testimonials from "@/components/Testimonials";
-import Blog from "@/components/Blog";
+import Achievements from "@/components/Achievements";
 
 export default function Home() {
   return (
     <main className="bg-[#121212] min-h-screen text-white">
       <Hero />
       <Projects />
-      <Testimonials />
-      <Blog />
+      <Achievements />
       <Skills />
       <Timeline />
       <Dock />

@@ -3,9 +3,9 @@
 import { motion } from "framer-motion";
 
 const skills = [
-  { category: "Frontend", items: ["Next.js", "React", "TypeScript", "Tailwind CSS", "Framer Motion", "Redux"] },
-  { category: "Backend", items: ["Node.js", "Express", "Microservices", "PostgreSQL", "MongoDB", "RabbitMQ"] },
-  { category: "DevOps & Cloud", items: ["Docker", "Kubernetes", "AWS EC2", "AWS S3", "CI/CD", "Nginx"] },
+  { category: "Frontend", items: ["React", "Next.js", "Tailwind CSS", "Framer Motion", "Vite"] },
+  { category: "Backend & Infra", items: ["Node.js", "FastAPI", "Vercel", "Render", "Streamlit", "PostgreSQL", "GeoJSON", "MySQL", "GitHub"] },
+  { category: "AI / ML", items: ["Python", "LangChain", "Plotly", "Hugging Face", "DuckDuckGo API", "LLM Integration"] },
 ];
 
 export default function Skills() {
