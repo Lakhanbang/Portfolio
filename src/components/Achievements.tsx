@@ -1,6 +1,7 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useInView } from "framer-motion";
+import { useRef } from "react";
 
 const ACHIEVEMENTS = [
   {
@@ -34,8 +35,11 @@ const ACHIEVEMENTS = [
 ];
 
 export default function Achievements() {
+  const scrollRef = useRef(null);
+  const isInView = useInView(scrollRef, { amount: 0.1 });
+
   return (
-    <section className="relative z-20 bg-[#0a0a0a] py-32 overflow-hidden" id="achievements">
+    <section className="relative z-20 bg-[#0a0a0a] py-32 overflow-hidden" id="achievements" ref={scrollRef}>
       {/* Background Ambience */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
         <div className="absolute bottom-[-20%] right-[-10%] w-[600px] h-[600px] bg-blue-600/10 rounded-full blur-[120px]" />
@@ -60,7 +64,7 @@ export default function Achievements() {
         <div className="flex w-max">
           <motion.div
             className="flex gap-8 px-4"
-            animate={{ x: "-50%" }}
+            animate={isInView ? { x: "-50%" } : { x: "0%" }}
             transition={{
               duration: 35,
               ease: "linear",

@@ -212,18 +212,23 @@ export default function Galaxy({
   ...rest
 }: GalaxyProps) {
   const ctnDom = useRef<HTMLDivElement>(null);
+  const rendererRef = useRef<Renderer | null>(null);
+  const programRef = useRef<Program | null>(null);
   const targetMousePos = useRef({ x: 0.5, y: 0.5 });
   const smoothMousePos = useRef({ x: 0.5, y: 0.5 });
   const targetMouseActive = useRef(0.0);
   const smoothMouseActive = useRef(0.0);
 
+  // Initialize Renderer and Program once
   useEffect(() => {
     if (!ctnDom.current) return;
     const ctn = ctnDom.current;
+    
     const renderer = new Renderer({
       alpha: transparent,
       premultipliedAlpha: false
     });
+    rendererRef.current = renderer;
     const gl = renderer.gl;
 
     if (transparent) {
@@ -234,24 +239,8 @@ export default function Galaxy({
       gl.clearColor(0, 0, 0, 1);
     }
 
-    let program: Program;
-
-    function resize() {
-      const scale = 1;
-      renderer.setSize(ctn.offsetWidth * scale, ctn.offsetHeight * scale);
-      if (program) {
-        program.uniforms.uResolution.value = new Color(
-          gl.canvas.width,
-          gl.canvas.height,
-          gl.canvas.width / gl.canvas.height
-        );
-      }
-    }
-    window.addEventListener('resize', resize, false);
-    resize();
-
     const geometry = new Triangle(gl);
-    program = new Program(gl, {
+    const program = new Program(gl, {
       vertex: vertexShader,
       fragment: fragmentShader,
       uniforms: {
@@ -266,7 +255,7 @@ export default function Galaxy({
         uHueShift: { value: hueShift },
         uSpeed: { value: speed },
         uMouse: {
-          value: new Float32Array([smoothMousePos.current.x, smoothMousePos.current.y])
+          value: new Float32Array([0.5, 0.5])
         },
         uGlowIntensity: { value: glowIntensity },
         uSaturation: { value: saturation },
@@ -279,12 +268,38 @@ export default function Galaxy({
         uTransparent: { value: transparent }
       }
     });
+    programRef.current = program;
 
     const mesh = new Mesh(gl, { geometry, program });
+    ctn.appendChild(gl.canvas);
+
+    function resize() {
+      if (!ctn || !renderer || !program) return;
+      renderer.setSize(ctn.offsetWidth, ctn.offsetHeight);
+      program.uniforms.uResolution.value.set(
+        gl.canvas.width,
+        gl.canvas.height,
+        gl.canvas.width / gl.canvas.height
+      );
+    }
+    window.addEventListener('resize', resize, false);
+    resize();
+
     let animateId: number;
+    let isVisible = true;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        isVisible = entry.isIntersecting;
+      },
+      { threshold: 0.1 }
+    );
+    observer.observe(ctn);
 
     function update(t: number) {
       animateId = requestAnimationFrame(update);
+      if (!program || !renderer || !isVisible) return;
+
       if (!disableAnimation) {
         program.uniforms.uTime.value = t * 0.001;
         program.uniforms.uStarSpeed.value = (t * 0.001 * starSpeed) / 10.0;
@@ -293,7 +308,6 @@ export default function Galaxy({
       const lerpFactor = 0.05;
       smoothMousePos.current.x += (targetMousePos.current.x - smoothMousePos.current.x) * lerpFactor;
       smoothMousePos.current.y += (targetMousePos.current.y - smoothMousePos.current.y) * lerpFactor;
-
       smoothMouseActive.current += (targetMouseActive.current - smoothMouseActive.current) * lerpFactor;
 
       program.uniforms.uMouse.value[0] = smoothMousePos.current.x;
@@ -303,7 +317,57 @@ export default function Galaxy({
       renderer.render({ scene: mesh });
     }
     animateId = requestAnimationFrame(update);
-    ctn.appendChild(gl.canvas);
+
+    return () => {
+      cancelAnimationFrame(animateId);
+      window.removeEventListener('resize', resize);
+      observer.disconnect();
+      if (gl.canvas.parentNode === ctn) {
+        ctn.removeChild(gl.canvas);
+      }
+      gl.getExtension('WEBGL_lose_context')?.loseContext();
+    };
+  }, []);
+
+  // Sync Uniforms when props change
+  useEffect(() => {
+    if (!programRef.current) return;
+    const u = programRef.current.uniforms;
+    u.uFocal.value.set(focal);
+    u.uRotation.value.set(rotation);
+    u.uStarSpeed.value = starSpeed;
+    u.uDensity.value = density;
+    u.uHueShift.value = hueShift;
+    u.uSpeed.value = speed;
+    u.uGlowIntensity.value = glowIntensity;
+    u.uSaturation.value = saturation;
+    u.uMouseRepulsion.value = mouseRepulsion;
+    u.uTwinkleIntensity.value = twinkleIntensity;
+    u.uRotationSpeed.value = rotationSpeed;
+    u.uRepulsionStrength.value = repulsionStrength;
+    u.uAutoCenterRepulsion.value = autoCenterRepulsion;
+    u.uTransparent.value = transparent;
+  }, [
+    focal,
+    rotation,
+    starSpeed,
+    density,
+    hueShift,
+    speed,
+    glowIntensity,
+    saturation,
+    mouseRepulsion,
+    twinkleIntensity,
+    rotationSpeed,
+    repulsionStrength,
+    autoCenterRepulsion,
+    transparent
+  ]);
+
+  // Handle mouse events separately
+  useEffect(() => {
+    if (!ctnDom.current) return;
+    const ctn = ctnDom.current;
 
     function handleMouseMove(e: MouseEvent) {
       const rect = ctn.getBoundingClientRect();
@@ -323,35 +387,10 @@ export default function Galaxy({
     }
 
     return () => {
-      cancelAnimationFrame(animateId);
-      window.removeEventListener('resize', resize);
-      if (mouseInteraction) {
-        ctn.removeEventListener('mousemove', handleMouseMove);
-        ctn.removeEventListener('mouseleave', handleMouseLeave);
-      }
-      if (gl.canvas.parentNode === ctn) {
-        ctn.removeChild(gl.canvas);
-      }
-      gl.getExtension('WEBGL_lose_context')?.loseContext();
+      ctn.removeEventListener('mousemove', handleMouseMove);
+      ctn.removeEventListener('mouseleave', handleMouseLeave);
     };
-  }, [
-    focal,
-    rotation,
-    starSpeed,
-    density,
-    hueShift,
-    disableAnimation,
-    speed,
-    mouseInteraction,
-    glowIntensity,
-    saturation,
-    mouseRepulsion,
-    twinkleIntensity,
-    rotationSpeed,
-    repulsionStrength,
-    autoCenterRepulsion,
-    transparent
-  ]);
+  }, [mouseInteraction]);
 
   return <div ref={ctnDom} className="galaxy-container" {...rest} />;
 }

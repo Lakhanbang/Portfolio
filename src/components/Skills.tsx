@@ -38,20 +38,32 @@ export default function Skills() {
               key={idx}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
+              whileHover={{
+                y: -10,
+                scale: 1.02,
+                boxShadow: "0 20px 40px rgba(59, 130, 246, 0.15)",
+                borderColor: "rgba(255, 255, 255, 0.2)"
+              }}
               transition={{ duration: 0.5, delay: idx * 0.1 }}
-              className="p-8 rounded-3xl bg-white/5 border border-white/10 backdrop-blur-md hover:bg-white/10 transition-colors"
+              className="p-8 rounded-3xl bg-white/[0.03] border border-white/10 backdrop-blur-xl transition-all duration-300 group relative"
             >
-              <h3 className="text-2xl font-bold text-blue-300 mb-6 uppercase tracking-wider">{group.category}</h3>
+              <h3 className="text-2xl font-bold text-blue-300 mb-6 uppercase tracking-wider group-hover:text-blue-200 transition-colors">
+                {group.category}
+              </h3>
               <div className="flex flex-wrap gap-3">
                 {group.items.map((skill, sIdx) => (
-                  <span
+                  <motion.span
                     key={sIdx}
-                    className="px-4 py-2 bg-black/40 rounded-full text-sm text-gray-300 border border-white/10 hover:border-white/30 hover:text-white transition-all cursor-default"
+                    whileHover={{ scale: 1.1, backgroundColor: "rgba(255, 255, 255, 0.15)" }}
+                    className="px-4 py-2 bg-white/5 rounded-full text-sm text-gray-400 border border-white/5 hover:text-white hover:border-blue-500/30 transition-all cursor-default relative overflow-hidden"
                   >
                     {skill}
-                  </span>
+                  </motion.span>
                 ))}
               </div>
+
+              {/* Subtle Ambient Glow inside the box */}
+              <div className="absolute -inset-px bg-linear-to-r from-blue-500/0 via-blue-500/10 to-purple-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-3xl pointer-events-none" />
             </motion.div>
           ))}
         </div>
