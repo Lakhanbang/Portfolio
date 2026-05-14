@@ -21,13 +21,13 @@ interface SplashCursorProps {
 }
 
 function SplashCursor({
-  SIM_RESOLUTION = 128,
-  DYE_RESOLUTION = 1440,
-  CAPTURE_RESOLUTION = 512,
+  SIM_RESOLUTION = 64,
+  DYE_RESOLUTION = 512,
+  CAPTURE_RESOLUTION = 256,
   DENSITY_DISSIPATION = 3.5,
   VELOCITY_DISSIPATION = 2,
   PRESSURE = 0.1,
-  PRESSURE_ITERATIONS = 20,
+  PRESSURE_ITERATIONS = 10,
   CURL = 3,
   SPLAT_RADIUS = 0.2,
   SPLAT_FORCE = 6000,
@@ -44,6 +44,11 @@ function SplashCursor({
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
+
+    // Performance check: disable on small screens or if user prefers reduced motion
+    if (window.innerWidth < 1024 || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      return;
+    }
 
     // Track if the effect is still active for cleanup
     let isActive = true;

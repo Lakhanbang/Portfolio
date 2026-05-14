@@ -16,14 +16,14 @@ const ACHIEVEMENTS = [
     issuer: "Stanford University • DeepLearning.AI",
     description: "Mastered core AI concepts including supervised learning (linear regression, neural networks), unsupervised learning (clustering, anomaly detection), and reinforcement learning. Gained hands-on experience in building and deploying intelligent systems using real-world data.",
     date: "2025",
-    image: "/certificate2.png",
+    image: "/standford.png",
   },
   {
     title: "Data Structures using C",
     issuer: "SWAYAM • CSVTU & IGNOU",
     description: "National-level certification program focused on core programming fundamentals, algorithmic problem-solving, and efficient data structure implementation through a rigorous proctored curriculum.",
     date: "2024",
-    image: "/certificate3.png",
+    image: "/swayam.png",
   },
   {
     title: "Big Data & Hadoop Architecture",
@@ -64,6 +64,7 @@ export default function Achievements() {
         <div className="flex w-max">
           <motion.div
             className="flex gap-8 px-4"
+            style={{ willChange: "transform" }}
             animate={isInView ? { x: "-50%" } : { x: "0%" }}
             transition={{
               duration: 35,
@@ -74,7 +75,7 @@ export default function Achievements() {
             {[...ACHIEVEMENTS, ...ACHIEVEMENTS].map((item, index) => (
               <div
                 key={index}
-                className="w-[350px] md:w-[500px] group rounded-2xl bg-white/5 border border-white/10 backdrop-blur-sm shrink-0 overflow-hidden"
+                className="w-[350px] md:w-[500px] group rounded-2xl bg-white/[0.07] border border-white/10 shrink-0 overflow-hidden"
               >
                 {/* Certificate Preview */}
                 <div className="w-full bg-black/40 overflow-hidden relative">

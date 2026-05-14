@@ -45,7 +45,7 @@ export default function Skills() {
                 borderColor: "rgba(255, 255, 255, 0.2)"
               }}
               transition={{ duration: 0.5, delay: idx * 0.1 }}
-              className="p-8 rounded-3xl bg-white/[0.03] border border-white/10 backdrop-blur-xl transition-all duration-300 group relative"
+              className="p-8 rounded-3xl bg-white/[0.07] border border-white/10 transition-all duration-300 group relative"
             >
               <h3 className="text-2xl font-bold text-blue-300 mb-6 uppercase tracking-wider group-hover:text-blue-200 transition-colors">
                 {group.category}
