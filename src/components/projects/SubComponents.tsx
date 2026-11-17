@@ -1,7 +1,9 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { useState, useEffect } from "react";
+import PortfolioImage from "@/components/PortfolioImage";
+import { useVisibleActivity } from "@/hooks/useVisibleActivity";
+import { useState, useEffect, useRef } from "react";
 
 export const CopyButton = ({ text }: { text: string }) => {
     const [copied, setCopied] = useState(false);
@@ -27,26 +29,30 @@ export const CopyButton = ({ text }: { text: string }) => {
 
 export const SlidingImageBox = ({ images }: { images: string[] }) => {
     const [index, setIndex] = useState(0);
+    const ref = useRef<HTMLDivElement>(null);
+    const active = useVisibleActivity(ref);
 
     useEffect(() => {
+        if (!active || images.length < 2) return;
         const interval = setInterval(() => {
             setIndex((prev) => (prev + 1) % images.length);
         }, 3000);
         return () => clearInterval(interval);
-    }, [images.length]);
+    }, [active, images.length]);
 
     return (
-        <div className="relative w-full rounded-[20px] overflow-hidden border border-white/10 bg-black/40 group mt-12" style={{ isolation: 'isolate', WebkitMaskImage: '-webkit-radial-gradient(white, black)' }}>
+        <div ref={ref} className="relative w-full rounded-[20px] overflow-hidden border border-white/10 bg-black/40 group mt-12" style={{ isolation: 'isolate', WebkitMaskImage: '-webkit-radial-gradient(white, black)' }}>
             <AnimatePresence mode="wait">
-                <motion.img
+                <motion.div
                     key={images[index]}
-                    src={images[index]}
                     initial={{ opacity: 0, x: 20 }}
                     animate={{ opacity: 1, x: 0 }}
                     exit={{ opacity: 0, x: -20 }}
                     transition={{ duration: 0.8, ease: "easeInOut" }}
-                    className="w-full h-auto block rounded-[20px]"
-                />
+                    className="w-full block rounded-[20px]"
+                >
+                    <PortfolioImage src={images[index]} alt={`Project screenshot ${index + 1}`} className="w-full h-auto block rounded-[20px]" />
+                </motion.div>
             </AnimatePresence>
             <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2 z-10">
                 {images.map((_, i) => (
@@ -57,8 +63,8 @@ export const SlidingImageBox = ({ images }: { images: string[] }) => {
     );
 };
 
-export const ArchitectureDiagram = ({ flow }: { flow: any[] }) => (
-    <div className="grid grid-cols-2 md:grid-cols-4 gap-6 py-12 px-8 bg-white/[0.02] rounded-[40px] border border-white/10 relative overflow-hidden mb-12" style={{ isolation: 'isolate' }}>
+export const ArchitectureDiagram = ({ flow }: { flow: { step: string; desc: string }[] }) => (
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 py-12 px-8 bg-white/[0.02] rounded-[40px] border border-white/10 relative overflow-hidden mb-12" style={{ isolation: 'isolate' }}>
         {(flow || []).map((item, index) => (
             <div key={item.step} className="flex flex-col items-center text-center relative z-10 px-2">
                 <div className="w-14 h-14 rounded-2xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400 font-black mb-4 text-xl">

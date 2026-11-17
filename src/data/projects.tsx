@@ -9,6 +9,8 @@ export interface Project {
     subtitle: string;
     description: string;
     overview?: string;
+    internship?: { company: string; duration: string; role: string; contribution: string };
+    results?: { title: string; desc: string }[];
     techStackCategorized?: Record<string, string[]>;
     techStack: string[];
     highlightsCategory: string;
@@ -28,16 +30,93 @@ export interface Project {
         overview: string;
         features: string[];
         architecture: string;
+        results?: string;
     };
     repo: string;
     demo: string;
+    presentation?: string;
     color: string;
     glowColor: string;
+    accent: { text: string; gradient: string; iconHover: string; background: string };
     icon: React.ReactNode;
     longDescription?: string;
 }
 
 export const projects: Project[] = [
+    {
+        id: "rfp-intelligence",
+        title: "RFP Intelligence",
+        tagline: "Company knowledge, grounded answers, and resilient AI orchestration in one RFP response platform.",
+        category: "Full-Stack AI & Agentic Automation",
+        tag: "INTERNSHIP PROJECT",
+        subtitle: "INGEST -> RETRIEVE -> DRAFT",
+        description: "Built end to end during my Myridius internship, RFP Intelligence helps sales and business development teams draft grounded proposal responses from company knowledge, reducing response time by 50–60%.",
+        overview: "Responding to a request for proposal (RFP) can consume 30–40 hours of manual work. RFP Intelligence turns company PDFs into a searchable knowledge base, extracts RFP questions, retrieves supporting context, and drafts answers through a sequential agentic pipeline. Sales and business development teams receive a formatted response PDF for review, with visibility into AI spend, latency, and provider usage at every step.",
+        internship: {
+            company: "Myridius",
+            duration: "3 months · May 15 – August 15, 2026",
+            role: "Full-stack AI Engineer · Solo Development",
+            contribution: "Owned the platform from architecture to deployment: the React frontend, LiteLLM routing gateway, CrewAI Organizer and Drafter agents, MCP document and tool integration, Qdrant hybrid retrieval, Redis-backed budget enforcement, and real-time logging and cost tracking."
+        },
+        techStackCategorized: {
+            frontend: ["React", "Vite", "Tailwind CSS"],
+            backend: ["Python", "CrewAI"],
+            database: ["Qdrant", "BM25 sparse vectors", "Dense vectors"],
+            ai: ["LiteLLM", "Groq", "OpenAI", "Gemini"],
+            state: ["Redis", "Budget tracking", "Provider health"],
+            integration: ["MCP", "PDF parsing", "OpenAI embeddings", "PDF generation"]
+        },
+        techStack: ["React", "Python", "CrewAI", "LiteLLM", "Qdrant", "Redis", "MCP"],
+        highlightsCategory: "KEY CAPABILITIES",
+        highlights: ["Sequential AI Agents", "Hybrid Knowledge Retrieval", "Adaptive LLM Routing", "Budget & Cost Visibility"],
+        featuresList: [
+            { title: "Budget & Observability", desc: "Checks spend before every LLM request, logs provider usage, cost, and latency, and enforces monthly spending caps through Redis." },
+            { title: "Adaptive Load Balancer", desc: "Monitors provider latency, error rates, and traffic load to route requests to the best-performing provider at that moment." },
+            { title: "Smart Routing & Fallback", desc: "Matches tasks to suitable providers and automatically switches to secondary and tertiary models when the primary fails." },
+            { title: "Sequential Agentic Pipeline", desc: "The Organizer extracts questions into structured JSON, the Drafter generates context-grounded answers, and a PDF writer compiles the response." },
+            { title: "Hybrid Data Ingestion", desc: "Chunks company PDFs and stores OpenAI dense embeddings alongside BM25 sparse vectors in Qdrant for semantic and keyword retrieval." },
+            { title: "Real-time Cost & Performance Tracking", desc: "Exposes agent actions, consumed budget, token usage, latency, and generation time throughout the response workflow." }
+        ],
+        architecture: {
+            principle: "Retrieve trusted context. Route intelligently. Draft sequentially.",
+            flow: [
+                { step: "Knowledge Ingestion", desc: "Company PDFs are chunked and indexed in Qdrant with dense and BM25 vectors." },
+                { step: "Organizer Agent", desc: "MCP document reading extracts RFP questions into structured JSON." },
+                { step: "Retrieve & Draft", desc: "Batches of three questions retrieve context and pass through the LiteLLM gateway to the Drafter." },
+                { step: "PDF & Telemetry", desc: "Answers become a formatted PDF while cost, latency, and budget usage are logged." }
+            ],
+            details: "Company PDFs → Chunking and embedding → Qdrant hybrid index. RFP upload → Organizer agent → Structured questions → Hybrid retrieval in batches of three → Drafter agent → Formatted response PDF. LiteLLM provides adaptive routing and a three-tier fallback chain, while Redis enforces budgets and maintains provider health state."
+        },
+        challenges: [
+            { issue: "Multi-provider resilience", solve: "Built a LiteLLM gateway that scores providers by quality, cost, latency, and success rate, with secondary and tertiary fallback models when the primary fails." },
+            { issue: "Cost control at scale", solve: "Implemented Redis-backed monthly spending caps and rate limits. Every LLM request is checked before execution and its consumed budget is logged." },
+            { issue: "Grounding answers in unstructured knowledge", solve: "Combined BM25 keyword matching with dense semantic embeddings in Qdrant to retrieve supporting company context and reduce unsupported answers." }
+        ],
+        results: [
+            { title: "50–60% Less Response Time", desc: "Reported reduction in the overall RFP response workflow compared with a 30–40 hour manual baseline, with generated drafts reviewed before use." },
+            { title: "Predictable AI Spend", desc: "Monthly budget caps are enforced automatically before LLM requests." },
+            { title: "Resilient Provider Routing", desc: "A three-tier fallback chain reduces dependence on a single model provider during failures." },
+            { title: "Knowledge-Grounded Answers", desc: "Hybrid retrieval supplies company context to support accurate, relevant draft responses." }
+        ],
+        images: {
+            overview: "/rfp-home.png",
+            features: ["/rfp-terminal.png"],
+            architecture: "/rfp-sequential-process.png",
+            results: "/rfp-results.png"
+        },
+        repo: "https://github.com/Lakhanbang/Portfolio.git",
+        demo: "",
+        presentation: "/rfp-presentation.html",
+        color: "from-blue-600/20 to-cyan-500/20",
+        glowColor: "bg-blue-500/20",
+        accent: { text: "text-blue-400", gradient: "to-blue-400", iconHover: "group-hover:bg-blue-500/20", background: "bg-blue-500/20" },
+        icon: (
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-5 h-5">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z" />
+                <path d="M14 2v6h6M8 13h8M8 17h5" />
+            </svg>
+        )
+    },
     {
         id: "doctor-copilot",
         title: "Doctor Copilot",
@@ -93,6 +172,7 @@ export const projects: Project[] = [
         demo: "https://www.doctorcopilot.app",
         color: "from-blue-600/20 to-cyan-500/20",
         glowColor: "bg-blue-500/20",
+        accent: { text: "text-blue-400", gradient: "to-blue-400", iconHover: "group-hover:bg-blue-500/20", background: "bg-blue-500/20" },
         icon: (
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-5 h-5">
                 <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
@@ -115,6 +195,7 @@ export const projects: Project[] = [
         demo: "#",
         color: "from-purple-600/20 to-pink-500/20",
         glowColor: "bg-purple-500/20",
+        accent: { text: "text-purple-400", gradient: "to-purple-400", iconHover: "group-hover:bg-purple-500/20", background: "bg-purple-500/20" },
         icon: (
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-5 h-5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /></svg>
         )
@@ -171,6 +252,7 @@ export const projects: Project[] = [
         demo: "https://ai-herbalist.onrender.com/",
         color: "from-green-600/20 to-teal-500/20",
         glowColor: "bg-green-500/20",
+        accent: { text: "text-green-400", gradient: "to-green-400", iconHover: "group-hover:bg-green-500/20", background: "bg-green-500/20" },
         icon: (
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-5 h-5"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8a9 9 0 0 1-10 10z" /><path d="M11 20a9 9 0 0 1-9-10c2 0 4.18-1 8-1 2 2 4.48 3.5 1 11z" /></svg>
         )
@@ -227,6 +309,7 @@ export const projects: Project[] = [
         demo: "https://research-ai-agent-9.streamlit.app/",
         color: "from-blue-600/20 to-cyan-500/20",
         glowColor: "bg-blue-500/20",
+        accent: { text: "text-blue-400", gradient: "to-blue-400", iconHover: "group-hover:bg-blue-500/20", background: "bg-blue-500/20" },
         icon: (
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-5 h-5">
                 <path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8z" />

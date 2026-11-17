@@ -1,6 +1,8 @@
 "use client";
+import PortfolioImage from "@/components/PortfolioImage";
 
 import { motion, useInView } from "framer-motion";
+import { useVisibleActivity } from "@/hooks/useVisibleActivity";
 import { useRef } from "react";
 
 const ACHIEVEMENTS = [
@@ -32,10 +34,18 @@ const ACHIEVEMENTS = [
     date: "2026",
     image: "/certificate4.png",
   },
+  {
+    title: "Internship Completion Certificate",
+    issuer: "RCG Global Services (Myridius)",
+    description: "Successfully completed an internship as a Trainee at RCG Global Services (Myridius) from May 15 to August 14, 2026. Recognized for dedication and a positive attitude throughout the internship.",
+    date: "2026",
+    image: "/myridius-internship-certificate.png",
+  },
 ];
 
 export default function Achievements() {
   const scrollRef = useRef(null);
+  const active = useVisibleActivity(scrollRef);
   const isInView = useInView(scrollRef, { amount: 0.1 });
 
   return (
@@ -64,13 +74,7 @@ export default function Achievements() {
         <div className="flex w-max">
           <motion.div
             className="flex gap-8 px-4"
-            style={{ willChange: "transform" }}
-            animate={isInView ? { x: "-50%" } : { x: "0%" }}
-            transition={{
-              duration: 35,
-              ease: "linear",
-              repeat: Infinity,
-            }}
+            style={{ animation: "achievement-scroll 35s linear infinite", animationPlayState: isInView && active ? "running" : "paused" }}
           >
             {[...ACHIEVEMENTS, ...ACHIEVEMENTS].map((item, index) => (
               <div
@@ -79,7 +83,8 @@ export default function Achievements() {
               >
                 {/* Certificate Preview */}
                 <div className="w-full bg-black/40 overflow-hidden relative">
-                  <img
+                  <PortfolioImage
+                    sizes="(min-width: 768px) 500px, 350px"
                     src={item.image}
                     alt={item.title}
                     className="w-full h-auto block opacity-60 group-hover:opacity-100 transition-opacity duration-500"

@@ -44,6 +44,14 @@ const TIMELINE_DATA = [
     description: "Built multiple AI-driven systems including a Doctor Copilot, multi-agent research automation system, and crime analytics dashboard using AI, APIs, and data visualization.",
     tags: ["SaaS Platform", "Multi-Agent AI", "Visualization", "Full Stack AI"],
     type: "work"
+  },
+  {
+    year: "May 15 – August 15, 2026",
+    title: "Full-Stack AI Engineering Internship",
+    org: "Myridius · RCG Global Services",
+    description: "Independently designed, built, and deployed RFP Intelligence during a three-month internship. Developed a React frontend, sequential CrewAI agents, MCP document tools, Qdrant hybrid retrieval, and a LiteLLM gateway with adaptive routing and provider fallbacks. Added Redis-backed budget enforcement and real-time cost and latency tracking, helping reduce RFP response time by 50–60%.",
+    tags: ["Solo Development", "React", "Python", "CrewAI", "LiteLLM", "MCP", "Qdrant", "Redis", "Hybrid Search"],
+    type: "work"
   }
 ];
 
@@ -90,7 +98,7 @@ export default function Timeline() {
   );
 }
 
-function TimelineItem({ item, index }: { item: any; index: number }) {
+function TimelineItem({ item, index }: { item: (typeof TIMELINE_DATA)[number]; index: number }) {
   const isEven = index % 2 === 0;
 
   return (

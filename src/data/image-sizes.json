@@ -1,0 +1,102 @@
+{
+  "/certificate1.png": {
+    "width": 745,
+    "height": 565
+  },
+  "/certificate4.png": {
+    "width": 1023,
+    "height": 730
+  },
+  "/doctor-credentials.webp.png": {
+    "width": 878,
+    "height": 538
+  },
+  "/doctor-features-1.webp.png": {
+    "width": 1337,
+    "height": 829
+  },
+  "/doctor-features-2.webp.png": {
+    "width": 1285,
+    "height": 665
+  },
+  "/doctor-overview.webp.png": {
+    "width": 1911,
+    "height": 836
+  },
+  "/myridius-internship-certificate.png": {
+    "width": 669,
+    "height": 768
+  },
+  "/profile.png": {
+    "width": 465,
+    "height": 559
+  },
+  "/reportgenie-architecture.png": {
+    "width": 385,
+    "height": 579
+  },
+  "/reportgenie-editor.png": {
+    "width": 1024,
+    "height": 468
+  },
+  "/reportgenie-overview.png": {
+    "width": 1024,
+    "height": 493
+  },
+  "/reportgenie-results.png": {
+    "width": 1024,
+    "height": 523
+  },
+  "/rfp-home.png": {
+    "width": 702,
+    "height": 354
+  },
+  "/rfp-results.png": {
+    "width": 571,
+    "height": 193
+  },
+  "/rfp-sequential-process.png": {
+    "width": 1594,
+    "height": 364
+  },
+  "/rfp-terminal.png": {
+    "width": 591,
+    "height": 481
+  },
+  "/standford.png": {
+    "width": 1116,
+    "height": 865
+  },
+  "/swayam.png": {
+    "width": 1162,
+    "height": 817
+  },
+  "/vatika-architecture.png": {
+    "width": 906,
+    "height": 763
+  },
+  "/vatika-assessment.png": {
+    "width": 850,
+    "height": 649
+  },
+  "/vatika-chatbot.png": {
+    "width": 1024,
+    "height": 464
+  },
+  "/vatika-features-1.png": {
+    "width": 868,
+    "height": 730
+  },
+  "/vatika-features-2.png": {
+    "width": 920,
+    "height": 773
+  },
+  "/vatika-features-3.png": {
+    "width": 1024,
+    "height": 745
+  },
+  "/vatika-overview.png": {
+    "width": 1024,
+    "height": 578
+  }
+}

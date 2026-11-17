@@ -1,45 +1,9 @@
 "use client";
+import PortfolioImage from "@/components/PortfolioImage";
 
 import { motion } from "framer-motion";
-import { useState } from "react";
 
 export default function Contact() {
-  const [formState, setFormState] = useState({
-    name: "",
-    email: "",
-    message: "",
-  });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSuccess, setIsSuccess] = useState(false);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-
-    try {
-      const response = await fetch('/api/send-email', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formState),
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to send message');
-      }
-
-      setIsSuccess(true);
-      setFormState({ name: "", email: "", message: "" });
-      setTimeout(() => setIsSuccess(false), 3000);
-    } catch (error) {
-      console.error('Error sending message:', error);
-      alert('Failed to send message. Please try again later.');
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
-
   return (
     <section className="relative z-20 bg-[#0a0a0a] py-32 px-4 md:px-12 overflow-hidden" id="contact">
       {/* Background Gradients */}
@@ -58,14 +22,14 @@ export default function Contact() {
             transition={{ duration: 0.8 }}
           >
             <h2 className="text-5xl md:text-7xl font-bold mb-6 text-white tracking-tight">
-              Let's work <br />
+              Let&apos;s work <br />
               <span className="text-transparent bg-clip-text bg-linear-to-r from-blue-400 to-purple-500">
                 together.
               </span>
             </h2>
             <p className="text-gray-400 text-lg mb-10 max-w-md leading-relaxed">
-              I'm currently available for freelance projects and open to full-time opportunities.
-              If you have a project that needs some creative touch, I'd love to hear about it.
+              I&apos;m currently available for freelance projects and open to full-time opportunities.
+              If you have a project that needs some creative touch, I&apos;d love to hear about it.
             </p>
 
             <div className="flex flex-col gap-6 mb-12">
@@ -111,13 +75,11 @@ export default function Contact() {
 
             <div className="relative bg-white/5 border border-white/10 rounded-[40px] p-4 backdrop-blur-sm overflow-hidden">
               <div className="aspect-square w-full rounded-[32px] overflow-hidden bg-black/40 mb-8">
-                <img
+                <PortfolioImage
                   src="/profile.png"
                   alt="Lakhan Bang"
                   className="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700"
-                  onError={(e) => {
-                    (e.target as HTMLImageElement).src = "https://placehold.co/600x600/1a1a1a/ffffff?text=Lakhan+Bang";
-                  }}
+
                 />
               </div>
 
@@ -132,7 +94,7 @@ export default function Contact() {
                   className="inline-flex items-center justify-center gap-3 w-full py-5 bg-linear-to-r from-blue-600 to-purple-600 rounded-2xl text-white font-bold text-lg hover:shadow-[0_0_30px_rgba(59,130,246,0.4)] hover:-translate-y-1 transition-all active:scale-[0.98]"
                 >
                   <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 1 1-7.6-11.7c.9 0 1.8.1 2.6.4l6 2-2 6Z" /></svg>
-                  Let's Connect
+                  Let&apos;s Connect
                 </a>
 
                 <p className="mt-6 text-sm text-gray-500 font-mono">+91 91193 77767</p>

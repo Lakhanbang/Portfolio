@@ -1,6 +1,8 @@
 "use client";
 
 import ScrollyVideo from "@/components/ScrollyVideo";
+import { useEffect, useRef } from "react";
+import { useVisibleActivity } from "@/hooks/useVisibleActivity";
 import Overlay from "@/components/Overlay";
 
 const VIDEO_SEQUENCE = [
@@ -9,12 +11,21 @@ const VIDEO_SEQUENCE = [
 ];
 
 export default function Hero() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const active = useVisibleActivity(containerRef);
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+    if (active) void video.play().catch(() => {});
+    else video.pause();
+  }, [active]);
   return (
-    <div className="relative bg-black" id="home">
+    <div ref={containerRef} className="relative bg-black" id="home">
       {/* Background Video Layer */}
       <video
         src="/backroung.mp4"
-        autoPlay
+        ref={videoRef}
         loop
         muted
         playsInline

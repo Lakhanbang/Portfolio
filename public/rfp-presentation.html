@@ -1,0 +1,1901 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RFP Intelligence — Platform Briefing</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700;9..144,800&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --ink: #0E1424;
+      --ink-soft: #141C30;
+      --panel-dark: #1B2438;
+      --panel-dark-2: #1E2740;
+      --line-dark: #323D58;
+      --paper: #F7F5F0;
+      --paper-tint: #EFEAE0;
+      --card: #FFFFFF;
+      --line-light: #E2DCCD;
+      --text-light: #EDEFF4;
+      --text-light-muted: #A8B0C4;
+      --text-dark: #161D31;
+      --text-dark-muted: #5C6275;
+      --amber-bright: #E8A23D;
+      --amber-deep: #9C5F1F;
+      --green: #3FB68B;
+      --red: #E2574C;
+      --steel: #6E93C8;
+      --font-display: 'Fraunces', serif;
+      --font-body: 'IBM Plex Sans', sans-serif;
+      --font-mono: 'IBM Plex Mono', monospace;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--paper);
+      color: var(--text-dark);
+      font-size: 22px;
+      line-height: 1.68;
+      overflow-x: hidden;
+    }
+
+    img,
+    svg {
+      display: block;
+    }
+
+    .wrap {
+      max-width: 1520px;
+      margin: 0 auto;
+      padding: 0 2.8rem;
+    }
+
+    .eyebrow {
+      font-family: var(--font-mono);
+      text-transform: uppercase;
+      letter-spacing: .16em;
+      font-size: .88rem;
+      font-weight: 600;
+      color: var(--amber-deep);
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+    }
+
+    .eyebrow::before {
+      content: '';
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--amber-deep);
+      display: inline-block;
+    }
+
+    .on-dark .eyebrow,
+    .on-dark .eyebrow::before {
+      color: var(--amber-bright);
+      background: var(--amber-bright);
+    }
+
+    h1,
+    h2,
+    h3 {
+      font-family: var(--font-display);
+      font-weight: 700;
+      letter-spacing: -.01em;
+      color: inherit;
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(26px);
+      transition: opacity .7s cubic-bezier(.4, 0, .2, 1), transform .7s cubic-bezier(.4, 0, .2, 1);
+    }
+
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ---------- progress bar ---------- */
+    #progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 3px;
+      width: 0%;
+      background: linear-gradient(90deg, var(--amber-deep), var(--amber-bright));
+      z-index: 999;
+      transition: width .1s linear;
+    }
+
+    /* ---------- section shells ---------- */
+    section {
+      padding: 4.2rem 0;
+    }
+
+    .on-dark {
+      background: var(--ink);
+      color: var(--text-light);
+    }
+
+    .on-paper {
+      background: var(--paper);
+    }
+
+    .on-tint {
+      background: var(--paper-tint);
+    }
+
+    .section-head {
+      max-width: 960px;
+      margin-bottom: 2.4rem;
+    }
+
+    .section-head h2 {
+      font-size: 2.8rem;
+      margin-top: .6rem;
+      line-height: 1.2;
+    }
+
+    .section-head h2 span {
+      color: var(--amber-deep);
+    }
+
+    .on-dark .section-head h2 span {
+      color: var(--amber-bright);
+    }
+
+    .section-head p {
+      color: var(--text-dark-muted);
+      font-size: 1.35rem;
+      margin-top: .8rem;
+      max-width: 900px;
+    }
+
+    .on-dark .section-head p {
+      color: var(--text-light-muted);
+    }
+
+    /* ---------- hero ---------- */
+    header.hero {
+      background: radial-gradient(ellipse at top left, #16203A 0%, var(--ink) 55%);
+      color: var(--text-light);
+      padding: 5rem 0 4rem;
+      border-bottom: 1px solid var(--line-dark);
+      position: relative;
+    }
+
+    header.hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: linear-gradient(var(--line-dark) 1px, transparent 1px), linear-gradient(90deg, var(--line-dark) 1px, transparent 1px);
+      background-size: 64px 64px;
+      opacity: .18;
+      pointer-events: none;
+    }
+
+    .hero-inner {
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero h1 {
+      font-size: 4.2rem;
+      line-height: 1.1;
+      margin: 1rem 0 1.2rem;
+      max-width: 1100px;
+    }
+
+    .hero h1 em {
+      font-style: normal;
+      color: var(--amber-bright);
+    }
+
+    .hero .lede {
+      font-size: 1.45rem;
+      color: var(--text-light-muted);
+      max-width: 960px;
+      margin-bottom: 2.4rem;
+      line-height: 1.65;
+    }
+
+    .stat-strip {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      border-top: 1px solid var(--line-dark);
+      padding-top: 1.6rem;
+    }
+
+    .stat {
+      min-width: 160px;
+    }
+
+    .stat .num {
+      font-family: var(--font-mono);
+      font-size: 2.3rem;
+      font-weight: 600;
+      color: var(--amber-bright);
+      text-shadow: 0 0 18px rgba(232, 162, 61, .35);
+      letter-spacing: -.01em;
+    }
+
+    .stat .label {
+      font-size: 1rem;
+      color: var(--text-light-muted);
+      margin-top: .25rem;
+    }
+
+    /* ---------- roadmap grid (3-pillar architecture) ---------- */
+    .roadmap-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 1.8rem;
+      margin-top: 1.2rem;
+    }
+
+    .roadmap-card {
+      background: var(--card);
+      border: 1px solid var(--line-light);
+      border-radius: 18px;
+      padding: 2.2rem;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      transition: transform .35s cubic-bezier(.2, .8, .2, 1), box-shadow .35s ease;
+    }
+
+    .roadmap-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 22px 40px -20px rgba(15, 23, 42, .22);
+    }
+
+    .roadmap-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.2rem;
+      gap: 1rem;
+    }
+
+    .roadmap-tag {
+      font-family: var(--font-mono);
+      font-size: .82rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      font-weight: 600;
+      padding: .35rem .85rem;
+      border-radius: 99px;
+    }
+
+    .tag-built {
+      background: #E8F5EE;
+      color: #167952;
+      border: 1px solid #B8E3CD;
+    }
+
+    .tag-building {
+      background: #FDF3E7;
+      color: #B86518;
+      border: 1px solid #F5D3AC;
+    }
+
+    .tag-goal {
+      background: #EBF0F8;
+      color: #38507A;
+      border: 1px solid #C4D2EA;
+    }
+
+    .roadmap-card h3 {
+      font-family: var(--font-body);
+      font-size: 1.6rem;
+      font-weight: 600;
+      color: var(--text-dark);
+      margin-bottom: .8rem;
+    }
+
+    .roadmap-card p {
+      color: var(--text-dark-muted);
+      font-size: 1.25rem;
+      line-height: 1.68;
+    }
+
+    .roadmap-sub {
+      margin-top: auto;
+      padding-top: 1.2rem;
+      border-top: 1px dashed var(--line-light);
+      font-family: var(--font-mono);
+      font-size: 1rem;
+      color: var(--text-dark);
+    }
+
+    .bridge-line {
+      margin-top: 1.8rem;
+      font-size: 1.38rem;
+      color: var(--text-dark-muted);
+      max-width: 1050px;
+      line-height: 1.68;
+    }
+
+    .bridge-line strong {
+      color: var(--text-dark);
+    }
+
+    /* ---------- what is litellm ---------- */
+    .lite-grid {
+      display: grid;
+      grid-template-columns: 1.3fr .9fr;
+      gap: 3.2rem;
+      align-items: center;
+    }
+
+    .lite-grid p {
+      margin-bottom: 1.4rem;
+      color: var(--text-dark-muted);
+      font-size: 1.3rem;
+      line-height: 1.72;
+    }
+
+    .lite-grid p strong {
+      color: var(--text-dark);
+    }
+
+    .hub-card {
+      background: var(--card);
+      border: 1px solid var(--line-light);
+      border-radius: 18px;
+      padding: 2rem;
+      box-shadow: 0 14px 30px -18px rgba(15, 23, 42, .25);
+    }
+
+    .hub-card .cap {
+      text-align: center;
+      font-family: var(--font-mono);
+      font-size: .92rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--text-dark-muted);
+      margin-top: .8rem;
+    }
+
+    /* ---------- agent definition cards ---------- */
+    .agent-section-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 1.05fr;
+      gap: 3.5rem;
+      align-items: center;
+      margin-top: 1.6rem;
+    }
+
+    .agent-def-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .agent-def-card {
+      background: var(--card);
+      border: 1px solid var(--line-light);
+      border-radius: 18px;
+      padding: 2.4rem;
+      box-shadow: 0 14px 30px -18px rgba(15, 23, 42, .18);
+    }
+
+    .agent-def-card h3 {
+      display: flex;
+      align-items: center;
+      gap: .6rem;
+      font-size: 1.6rem;
+      margin-bottom: 1.1rem;
+    }
+
+    .agent-def-card p {
+      color: var(--text-dark-muted);
+      font-size: 1.28rem;
+      line-height: 1.72;
+    }
+
+    .agent-flow-box {
+      background: var(--card);
+      border: 1px solid var(--line-light);
+      border-radius: 20px;
+      padding: 2.2rem 1.8rem;
+      box-shadow: 0 16px 36px -18px rgba(15, 23, 42, .22);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .agent-flow-box .cap {
+      text-align: center;
+      font-family: var(--font-mono);
+      font-size: .92rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--text-dark-muted);
+      margin-top: 1.4rem;
+    }
+
+    /* ---------- capability cards ---------- */
+    .cap-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 1.8rem;
+    }
+
+    .cap-card {
+      background: var(--card);
+      border: 1px solid var(--line-light);
+      border-radius: 18px;
+      padding: 2.4rem;
+      transition: transform .35s cubic-bezier(.2, .8, .2, 1), box-shadow .35s ease;
+    }
+
+    .cap-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 22px 40px -20px rgba(15, 23, 42, .25);
+    }
+
+    .cap-card .dot-title {
+      display: flex;
+      align-items: center;
+      gap: .6rem;
+      margin-bottom: .6rem;
+    }
+
+    .dot {
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      flex: none;
+      box-shadow: 0 0 0 3px rgba(0, 0, 0, .04);
+    }
+
+    .dot.amber {
+      background: var(--amber-deep);
+    }
+
+    .dot.green {
+      background: var(--green);
+    }
+
+    .dot.steel {
+      background: var(--steel);
+    }
+
+    .dot.red {
+      background: var(--red);
+    }
+
+    .cap-card h3 {
+      font-family: var(--font-body);
+      font-weight: 600;
+      font-size: 1.55rem;
+    }
+
+    .cap-card p {
+      color: var(--text-dark-muted);
+      font-size: 1.25rem;
+      line-height: 1.68;
+    }
+
+    .impact {
+      margin-top: 1.2rem;
+      padding-top: .9rem;
+      border-top: 1px dashed var(--line-light);
+      font-family: var(--font-mono);
+      font-size: .94rem;
+      color: var(--text-dark);
+    }
+
+    .impact b {
+      color: var(--amber-deep);
+      font-weight: 600;
+    }
+
+    /* ---------- diagram section ---------- */
+    .diagram-wrap {
+      background: var(--card);
+      border: 1px solid var(--line-light);
+      border-radius: 22px;
+      padding: 2rem;
+      overflow-x: auto;
+      box-shadow: 0 16px 36px -18px rgba(15, 23, 42, .15);
+    }
+
+    .diagram-wrap svg {
+      display: block;
+      min-width: 1320px;
+    }
+
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.8rem;
+      margin-top: 1.6rem;
+      font-family: var(--font-mono);
+      font-size: .92rem;
+      color: var(--text-dark-muted);
+    }
+
+    .legend .key {
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+    }
+
+    .legend .swatch {
+      width: 26px;
+      height: 2px;
+      display: inline-block;
+    }
+
+    .legend .swatch.solid {
+      background: #4C608A;
+    }
+
+    .legend .swatch.dash-amber {
+      background: repeating-linear-gradient(90deg, #C47A2B 0 6px, transparent 6px 10px);
+    }
+
+    .legend .swatch.dash-red {
+      background: repeating-linear-gradient(90deg, #D14338 0 6px, transparent 6px 10px);
+    }
+
+    .legend .swatch.dash-steel {
+      background: repeating-linear-gradient(90deg, #4A72AE 0 6px, transparent 6px 10px);
+    }
+
+    .hint-mobile {
+      display: none;
+      font-family: var(--font-mono);
+      font-size: .82rem;
+      color: var(--text-dark-muted);
+      margin-bottom: 1rem;
+    }
+
+    @media(max-width:760px) {
+      .hint-mobile {
+        display: block;
+      }
+    }
+
+    /* svg node styling */
+    .node rect.shell {
+      fill: #F8F6F0;
+      stroke: #C9C1AC;
+      stroke-width: 1.4;
+      transition: stroke .25s, fill .25s;
+    }
+
+    .node:hover rect.shell,
+    .node:focus rect.shell {
+      stroke: var(--amber-deep);
+    }
+
+    .node:focus {
+      outline: none;
+    }
+
+    .node text {
+      fill: var(--text-dark);
+      font-family: var(--font-body);
+    }
+
+    .node .ntitle {
+      font-weight: 600;
+      font-size: 14.5px;
+    }
+
+    .node .nsub {
+      font-size: 12px;
+      fill: var(--text-dark-muted);
+    }
+
+    .band-rect {
+      fill: rgba(0, 0, 0, .012);
+      stroke: #C9C1AC;
+      stroke-dasharray: 4 4;
+    }
+
+    .band-label {
+      font-family: var(--font-mono);
+      font-size: 12.5px;
+      letter-spacing: .12em;
+      fill: var(--amber-deep);
+      text-transform: uppercase;
+    }
+
+    .chip rect {
+      fill: #FDF4E7;
+      stroke: #DDA154;
+      stroke-width: 1;
+    }
+
+    .chip text {
+      fill: #7E4B17;
+      font-family: var(--font-mono);
+      font-size: 11.5px;
+      font-weight: 600;
+    }
+
+    .legend-card rect.shell {
+      fill: #F4F1E8;
+      stroke: #D0C8B6;
+    }
+
+    .legend-card text {
+      fill: var(--text-dark);
+      font-family: var(--font-body);
+      font-size: 12px;
+    }
+
+    .legend-card .lc-title {
+      font-weight: 600;
+      font-size: 13px;
+      fill: var(--text-dark-muted);
+    }
+
+    .blocked rect.shell {
+      fill: #FDF2F1;
+      stroke: #E2574C;
+    }
+
+    .path-solid {
+      stroke: #4C608A;
+      stroke-width: 2.2;
+      fill: none;
+    }
+
+    .path-primary-glow {
+      stroke: #1E8E62;
+      stroke-width: 2.2;
+      fill: none;
+      stroke-dasharray: 6 10;
+      animation: flow 1.6s linear infinite;
+      opacity: .85;
+    }
+
+    .path-fallback {
+      stroke: #C47A2B;
+      stroke-width: 2;
+      fill: none;
+      stroke-dasharray: 6 6;
+    }
+
+    .path-blocked {
+      stroke: #D14338;
+      stroke-width: 2;
+      fill: none;
+      stroke-dasharray: 6 5;
+    }
+
+    .path-return {
+      stroke: #4A72AE;
+      stroke-width: 2;
+      fill: none;
+      stroke-dasharray: 4 5;
+    }
+
+    .path-bus {
+      stroke: #A6B0C6;
+      stroke-width: 1.6;
+      fill: none;
+    }
+
+    .path-label {
+      font-family: var(--font-mono);
+      font-size: 11.5px;
+      font-weight: 500;
+      fill: var(--text-dark-muted);
+    }
+
+    @keyframes flow {
+      to {
+        stroke-dashoffset: -32;
+      }
+    }
+
+    /* tooltip */
+    #svg-tooltip {
+      position: fixed;
+      z-index: 1200;
+      max-width: 260px;
+      padding: .85rem 1rem;
+      border-radius: 10px;
+      background: var(--ink);
+      color: var(--text-light);
+      border: 1px solid var(--line-dark);
+      font-size: .84rem;
+      box-shadow: 0 18px 30px -12px rgba(0, 0, 0, .5);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .15s ease;
+    }
+
+    #svg-tooltip.show {
+      opacity: 1;
+    }
+
+    #svg-tooltip .tt-title {
+      font-family: var(--font-mono);
+      font-size: .72rem;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--amber-bright);
+      margin-bottom: .35rem;
+    }
+
+    /* ---------- business value ---------- */
+    .value-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.6rem;
+    }
+
+    .value-card {
+      background: var(--card);
+      border: 1px solid var(--line-light);
+      border-radius: 18px;
+      padding: 2.4rem;
+    }
+
+    .value-card h3 {
+      font-size: 1.55rem;
+      margin-bottom: .8rem;
+    }
+
+    .value-card p {
+      color: var(--text-dark-muted);
+      font-size: 1.25rem;
+      line-height: 1.68;
+    }
+
+    .value-stat {
+      margin-top: 1.2rem;
+      font-family: var(--font-mono);
+      font-size: 1.05rem;
+      color: var(--amber-deep);
+      border-top: 1px dashed var(--line-light);
+      padding-top: .9rem;
+    }
+
+    .closing-line {
+      margin-top: 2rem;
+      font-size: 1.38rem;
+      max-width: 1050px;
+      color: var(--text-dark-muted);
+      border-top: 1px dashed var(--line-light);
+      padding-top: 1.5rem;
+      line-height: 1.68;
+    }
+
+    /* ---------- vision ---------- */
+    .vision-box {
+      background: linear-gradient(135deg, #16203A 0%, var(--ink) 100%);
+      border: 1px solid var(--line-dark);
+      border-radius: 24px;
+      padding: 3.8rem 3.2rem;
+      text-align: center;
+    }
+
+    .vision-box h2 {
+      font-size: 2.85rem;
+      color: var(--text-light);
+      margin-bottom: 1.3rem;
+    }
+
+    .vision-box p {
+      font-size: 1.4rem;
+      color: var(--text-light-muted);
+      max-width: 1020px;
+      margin: 0 auto;
+      line-height: 1.75;
+    }
+
+    .vision-box p strong {
+      color: var(--amber-bright);
+    }
+
+    .future-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 1.8rem;
+      margin-top: 2.8rem;
+      text-align: left;
+    }
+
+    .future-card {
+      background: rgba(255, 255, 255, .045);
+      border: 1px solid rgba(255, 255, 255, .14);
+      border-radius: 18px;
+      padding: 2.4rem;
+      transition: border-color .25s, transform .25s;
+    }
+
+    .future-card:hover {
+      border-color: var(--amber-bright);
+      transform: translateY(-4px);
+    }
+
+    .future-tag {
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: .82rem;
+      font-weight: 600;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--amber-bright);
+      margin-bottom: .8rem;
+    }
+
+    .future-card h3 {
+      font-size: 1.55rem;
+      color: var(--text-light);
+      margin-bottom: .8rem;
+    }
+
+    .future-card p {
+      font-size: 1.25rem;
+      color: var(--text-light-muted);
+      line-height: 1.7;
+      margin: 0;
+    }
+
+    /* ---------- agent diagram ---------- */
+    .agent-diagram-wrap {
+      background: var(--card);
+      border: 1px solid var(--line-light);
+      border-radius: 22px;
+      padding: 2rem;
+      overflow-x: auto;
+      margin-top: 2rem;
+    }
+
+    .agent-diagram-wrap svg {
+      display: block;
+      min-width: 900px;
+    }
+
+    .agent-diagram-wrap .node rect.shell {
+      fill: #F8F6F0;
+      stroke: #C9C1AC;
+      stroke-width: 1.4;
+      transition: stroke .25s;
+    }
+
+    .agent-diagram-wrap .node:hover rect.shell {
+      stroke: var(--amber-deep);
+    }
+
+    .agent-diagram-wrap .node text {
+      fill: var(--text-dark);
+      font-family: var(--font-body);
+    }
+
+    .agent-diagram-wrap .node .ntitle {
+      font-weight: 600;
+      font-size: 14.5px;
+    }
+
+    .agent-diagram-wrap .node .nsub {
+      font-size: 12px;
+      fill: var(--text-dark-muted);
+    }
+
+    .agent-diagram-wrap .band-rect {
+      fill: rgba(0, 0, 0, .012);
+      stroke: #C9C1AC;
+      stroke-dasharray: 4 4;
+    }
+
+    .agent-diagram-wrap .band-label {
+      font-family: var(--font-mono);
+      font-size: 12.5px;
+      letter-spacing: .12em;
+      fill: var(--amber-deep);
+      text-transform: uppercase;
+    }
+
+    .agent-diagram-wrap .path-solid {
+      stroke: #4C608A;
+      stroke-width: 2.2;
+      fill: none;
+    }
+
+    .agent-diagram-wrap .path-amber {
+      stroke: #C47A2B;
+      stroke-width: 2;
+      fill: none;
+      stroke-dasharray: 6 6;
+    }
+
+    .agent-diagram-wrap .path-return-agent {
+      stroke: #4A72AE;
+      stroke-width: 1.8;
+      fill: none;
+      stroke-dasharray: 4 5;
+    }
+
+    .agent-diagram-wrap .path-label {
+      font-family: var(--font-mono);
+      font-size: 11.5px;
+      fill: var(--text-dark-muted);
+    }
+
+    .agent-def-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.8rem;
+      margin-top: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .agent-def-card {
+      background: var(--card);
+      border: 1px solid var(--line-light);
+      border-radius: 18px;
+      padding: 2.2rem;
+    }
+
+    .agent-def-card h3 {
+      font-family: var(--font-body);
+      font-weight: 600;
+      font-size: 1.35rem;
+      margin-bottom: .6rem;
+      display: flex;
+      align-items: center;
+      gap: .6rem;
+    }
+
+    .agent-def-card p {
+      color: var(--text-dark-muted);
+      font-size: 1.15rem;
+      line-height: 1.65;
+    }
+
+    @media(max-width:860px) {
+      .agent-def-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    footer {
+      padding: 2.5rem 0;
+      text-align: center;
+      font-family: var(--font-mono);
+      font-size: 1rem;
+      color: var(--text-dark-muted);
+    }
+
+    @media(max-width:860px) {
+      .hero h1 {
+        font-size: 2.3rem;
+      }
+
+      .before-after {
+        grid-template-columns: 1fr;
+      }
+
+      .lite-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .section-head h2 {
+        font-size: 1.7rem;
+      }
+    }
+
+    :focus-visible {
+      outline: 2px solid var(--amber-bright);
+      outline-offset: 2px;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation-duration: .001s !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .001s !important;
+      }
+    }
+  </style>
+  <noscript>
+    <style>
+      .reveal {
+        opacity: 1 !important;
+        transform: none !important;
+      }
+    </style>
+  </noscript>
+</head>
+
+<body>
+
+  <div id="progress"></div>
+  <div id="svg-tooltip">
+    <div class="tt-title"></div>
+    <div class="tt-desc"></div>
+  </div>
+
+  <!-- ============ HERO ============ -->
+  <header class="hero">
+    <div class="wrap hero-inner">
+      <span class="eyebrow">Platform Briefing · RFP Intelligence</span>
+      <h1>Automated <em>RFP Response System</em>: AI-powered drafting from company knowledge.</h1>
+      <p class="lede">Responding to RFPs is a slow, manual process consuming 20-40 hours of effort. Our platform
+        automatically drafts accurate, grounded answers from your existing knowledge base—letting a human just review
+        and approve. Helping to save upto 50%-60% of efficient time.</p>
+    </div>
+  </header>
+
+  <!-- ============ PROJECT ROADMAP ============ -->
+  <section class="on-paper reveal">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Project Roadmap &amp; Vision</span>
+        <h2>What we are building: <span>The 3-Layer Agentic Architecture</span>.</h2>
+        <p>Our platform evolves through three core stages — starting with our robust LLM Gateway, expanding into
+          autonomous ReAct Agents, and ultimately exposing everything via the Model Context Protocol (MCP).</p>
+      </div>
+      <div class="roadmap-grid">
+        <div class="roadmap-card">
+          <div class="roadmap-header">
+            <span class="eyebrow" style="margin:0;">Stage 1 · Foundation</span>
+          </div>
+          <h3>litellm_router/</h3>
+          <p>The enterprise traffic controller. Picks the optimal LLM for every task, enforces global budget
+            ceilings and rate limits via Redis, and automatically falls back if a provider fails.</p>
+          <div class="roadmap-sub"><b>Status:</b> Core gateway production-ready.</div>
+        </div>
+
+        <div class="roadmap-card">
+          <div class="roadmap-header">
+            <span class="eyebrow" style="margin:0;">Stage 2 · Autonomous Brain</span>
+          </div>
+          <h3>agents/</h3>
+          <p>Autonomous ReAct agent runners that break complex tasks into steps (Plan → Act → Observe). They execute
+            external tools and maintain context while routing all LLM calls safely through Stage 1.</p>
+          <div class="roadmap-sub"><b>Status:</b> Actively constructing agent loop.</div>
+        </div>
+
+        <div class="roadmap-card">
+          <div class="roadmap-header">
+            <span class="eyebrow" style="margin:0;">Stage 3 · Outside Connection</span>
+          </div>
+          <h3>MCP (Model Context Protocol)</h3>
+          <p>A clean, standard way for AI to reach real data. It uses <strong>Tools</strong> (real-world actions), and
+            <strong>Prompts</strong> (reusable instruction templates).
+          </p>
+          <div class="roadmap-sub"><b>Core idea:</b> Separation of reasoning from data.</div>
+        </div>
+      </div>
+      <p class="bridge-line">First we built the <strong>LiteLLM gateway</strong>, next we built the
+        <strong>autonomous agent runners</strong> that call it, and finally used the external
+        <strong>MCP tools</strong> for the project.
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ WHAT IS LITELLM ============ -->
+  <section class="on-tint reveal">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">The foundation</span>
+        <h2>What is <span>LiteLLM</span>, exactly?</h2>
+      </div>
+      <div class="lite-grid">
+        <div>
+          <p>LiteLLM is the open-source layer sitting at the center of the gateway. It gives <strong>multiple AI
+              providers the same request and response shape</strong>,
+            so the rest of the platform never has to know or care which provider actually answered.</p>
+          <p>Without it, adding a new provider means a new SDK, a new authentication method, and a new response format
+            to maintain. Every additional provider makes the whole system harder to keep up. LiteLLM replaces that
+            growing pile of one-off integrations with <strong>a single, standardized interface</strong> for all of them.
+          </p>
+          <p>In practice, that means the team can add a provider, swap a default model, or move workloads between
+            vendors without touching the applications built on top of the gateway.</p>
+        </div>
+        <div class="hub-card">
+          <svg viewBox="0 0 320 260" width="100%" height="auto">
+            <g>
+              <circle cx="160" cy="130" r="46" fill="#FFF" stroke="#9C5F1F" stroke-width="2" />
+              <text x="160" y="125" text-anchor="middle" font-family="IBM Plex Mono" font-size="11" font-weight="600"
+                fill="#161D31">LiteLLM</text>
+              <text x="160" y="140" text-anchor="middle" font-family="IBM Plex Mono" font-size="9"
+                fill="#5C6275">gateway</text>
+            </g>
+            <g stroke="#C9C1AC" stroke-width="1.4">
+              <line x1="160" y1="84" x2="160" y2="34" />
+              <line x1="120" y1="158" x2="60" y2="206" />
+              <line x1="200" y1="158" x2="260" y2="206" />
+            </g>
+            <g font-family="IBM Plex Mono" font-size="10.5" fill="#161D31" text-anchor="middle">
+              <circle cx="160" cy="22" r="20" fill="#EFEAE0" stroke="#C9C1AC" />
+              <text x="160" y="26">Provider 1</text>
+              <circle cx="50" cy="220" r="20" fill="#EFEAE0" stroke="#C9C1AC" />
+              <text x="50" y="224">Provider 2</text>
+              <circle cx="270" cy="220" r="20" fill="#EFEAE0" stroke="#C9C1AC" />
+              <text x="270" y="224">Provider 3</text>
+            </g>
+          </svg>
+          <div class="cap">One interface · many providers</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ AGENTIC FRAMEWORK ============ -->
+  <section class="on-paper reveal">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">The Application Layer</span>
+        <h2>Sequential <span>Agentic Pipeline</span></h2>
+        <p>From raw RFP questions to a finished PDF — the Organizer and Drafter agents hand off work in sequence, each
+          LLM call routed securely through the gateway.</p>
+      </div>
+
+      <!-- ===== HORIZONTAL PIPELINE DIAGRAM (full width, top) ===== -->
+      <div
+        style="background: var(--card); border: 1px solid var(--line-light); border-radius: 20px; padding: 2rem 2.4rem; margin-bottom: 2.4rem; overflow-x: auto; box-shadow: 0 14px 30px -18px rgba(15,23,42,.15);">
+        <svg viewBox="0 0 1080 220" width="100%" style="min-width: 780px; display: block;">
+          <defs>
+            <marker id="arrow-h" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6"
+              orient="auto-start-reverse">
+              <path d="M 0 1 L 10 5 L 0 9 z" fill="#38507A" />
+            </marker>
+            <marker id="arrow-h-green" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6"
+              orient="auto-start-reverse">
+              <path d="M 0 1 L 10 5 L 0 9 z" fill="#1E8E62" />
+            </marker>
+            <marker id="arrow-h-amber" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6"
+              orient="auto-start-reverse">
+              <path d="M 0 1 L 10 5 L 0 9 z" fill="#C47A2B" />
+            </marker>
+            <filter id="sf" x="-12%" y="-15%" width="124%" height="140%">
+              <feDropShadow dx="0" dy="3" stdDeviation="4" flood-color="#0F172A" flood-opacity="0.09" />
+            </filter>
+          </defs>
+
+          <!-- Data Ingestion (top, above Organizer) -->
+          <g filter="url(#sf)">
+            <title>Handles the initial PDF upload, chunks the document, and stores embeddings.</title>
+            <rect x="30" y="10" width="140" height="48" rx="10" fill="#E8F5EE" stroke="#52B788" stroke-width="1.5" />
+            <text x="100" y="29" font-family="IBM Plex Sans,sans-serif" font-weight="700" font-size="12" fill="#167952"
+              text-anchor="middle">RFP Generator</text>
+            <text x="100" y="47" font-family="IBM Plex Mono,monospace" font-size="10" fill="#3FB68B"
+              text-anchor="middle">PDF → Qdrant Chunks</text>
+          </g>
+          <!-- dashed line from ingestion down to Organizer -->
+          <line x1="100" y1="58" x2="100" y2="90" stroke="#52B788" stroke-width="1.5" stroke-dasharray="4 3"
+            marker-end="url(#arrow-h-green)" />
+
+          <!-- Organizer Agent -->
+          <g filter="url(#sf)">
+            <title>Reads the raw RFP document via MCP and extracts all questions into a structured JSON.</title>
+            <rect x="30" y="89" width="140" height="72" rx="12" fill="#E8F5EE" stroke="#52B788" stroke-width="1.8" />
+            <text x="100" y="113" font-family="IBM Plex Sans,sans-serif" font-weight="700" font-size="13" fill="#167952"
+              text-anchor="middle">Organizer Agent</text>
+            <text x="100" y="131" font-family="IBM Plex Mono,monospace" font-size="10" fill="#3FB68B"
+              text-anchor="middle">Structures RFP Qs</text>
+            <text x="100" y="145" font-family="IBM Plex Mono,monospace" font-size="9" fill="#167952"
+              text-anchor="middle">Tool: document-reader MCP</text>
+          </g>
+
+          <!-- Arrow Organizer -> LLM Gateway 1 -->
+          <line x1="170" y1="125" x2="218" y2="125" stroke="#38507A" stroke-width="2" marker-end="url(#arrow-h)" />
+          <text x="194" y="115" font-family="IBM Plex Mono,monospace" font-size="9" fill="#A8B0C4"
+            text-anchor="middle"></text>
+
+          <!-- LLM Gateway 1 -->
+          <g filter="url(#sf)">
+            <title>Routes the Organizer's API calls, tracks budget, and handles zero-downtime fallbacks.</title>
+            <rect x="222" y="96" width="140" height="58" rx="12" fill="#FDF3E7" stroke="#DDA154" stroke-width="1.8" />
+            <text x="292" y="120" font-family="IBM Plex Sans,sans-serif" font-weight="700" font-size="13" fill="#7E4B17"
+              text-anchor="middle">LLM Gateway</text>
+            <text x="292" y="138" font-family="IBM Plex Mono,monospace" font-size="10" fill="#C47A2B"
+              text-anchor="middle">LiteLLM Router</text>
+          </g>
+
+          <!-- Arrow GW1 -> Search Knowledge -->
+          <line x1="362" y1="125" x2="410" y2="125" stroke="#38507A" stroke-width="2" marker-end="url(#arrow-h)" />
+          <text x="386" y="115" font-family="IBM Plex Mono,monospace" font-size="9" fill="#A8B0C4"
+            text-anchor="middle"></text>
+
+          <!-- Search Knowledge -->
+          <g filter="url(#sf)">
+            <title>Retrieves the most relevant context from Qdrant using Hybrid BM25 + Dense search.</title>
+            <rect x="414" y="89" width="148" height="72" rx="12" fill="#EBF0F8" stroke="#6E93C8" stroke-width="1.8" />
+            <text x="488" y="113" font-family="IBM Plex Sans,sans-serif" font-weight="700" font-size="13" fill="#38507A"
+              text-anchor="middle">Search Knowledge</text>
+            <text x="488" y="131" font-family="IBM Plex Mono,monospace" font-size="10" fill="#6E93C8"
+              text-anchor="middle">Qdrant Database</text>
+            <text x="488" y="145" font-family="IBM Plex Mono,monospace" font-size="9" fill="#38507A"
+              text-anchor="middle">Hybrid BM25 + Dense</text>
+          </g>
+
+          <!-- Arrow Search -> Drafter -->
+          <line x1="562" y1="125" x2="610" y2="125" stroke="#38507A" stroke-width="2" marker-end="url(#arrow-h)" />
+          <text x="586" y="115" font-family="IBM Plex Mono,monospace" font-size="9" fill="#A8B0C4"
+            text-anchor="middle"></text>
+
+          <!-- Drafter Agent -->
+          <g filter="url(#sf)">
+            <title>Drafts answers for batches of questions using the retrieved context and strict prompt guidelines.
+            </title>
+            <rect x="614" y="89" width="148" height="72" rx="12" fill="#EBF0F8" stroke="#38507A" stroke-width="1.8" />
+            <text x="688" y="113" font-family="IBM Plex Sans,sans-serif" font-weight="700" font-size="13" fill="#16203A"
+              text-anchor="middle">Drafter Agent</text>
+            <text x="688" y="131" font-family="IBM Plex Mono,monospace" font-size="10" fill="#6E93C8"
+              text-anchor="middle">Generates Answer</text>
+            <text x="688" y="145" font-family="IBM Plex Mono,monospace" font-size="9" fill="#16203A"
+              text-anchor="middle">Prompt: Prompt MCP</text>
+          </g>
+
+          <!-- Return loop: Drafter -> Search Knowledge (dashed, if answer quality low) -->
+          <path d="M 688 89 C 688 48 488 48 488 89" fill="none" stroke="#C47A2B" stroke-width="1.5"
+            stroke-dasharray="5 3" marker-end="url(#arrow-h-amber)" />
+          <text x="588" y="42" font-family="IBM Plex Mono,monospace" font-size="9" fill="#C47A2B"
+            text-anchor="middle">Batch of 3 Qs to answer</text>
+
+          <!-- Arrow Drafter -> LLM Gateway 2 -->
+          <line x1="762" y1="125" x2="810" y2="125" stroke="#38507A" stroke-width="2" marker-end="url(#arrow-h)" />
+          <text x="786" y="115" font-family="IBM Plex Mono,monospace" font-size="9" fill="#A8B0C4"
+            text-anchor="middle"></text>
+
+          <!-- LLM Gateway 2 -->
+          <g filter="url(#sf)">
+            <title>Routes the Drafter's API calls, ensuring high reliability for the final generation.</title>
+            <rect x="814" y="96" width="140" height="58" rx="12" fill="#FDF3E7" stroke="#DDA154" stroke-width="1.8" />
+            <text x="884" y="120" font-family="IBM Plex Sans,sans-serif" font-weight="700" font-size="13" fill="#7E4B17"
+              text-anchor="middle">LLM Gateway</text>
+            <text x="884" y="138" font-family="IBM Plex Mono,monospace" font-size="10" fill="#C47A2B"
+              text-anchor="middle">LiteLLM Router</text>
+          </g>
+
+          <!-- Arrow GW2 -> Write PDF -->
+          <line x1="954" y1="125" x2="1000" y2="125" stroke="#38507A" stroke-width="2" marker-end="url(#arrow-h)" />
+          <text x="977" y="115" font-family="IBM Plex Mono,monospace" font-size="9" fill="#A8B0C4"
+            text-anchor="middle"></text>
+
+          <!-- Write PDF / Final Output -->
+          <g filter="url(#sf)">
+            <title>Compiles all generated answers and formats them into the final RFP PDF document.</title>
+            <rect x="1004" y="96" width="66" height="58" rx="12" fill="#FDF2F1" stroke="#E2574C" stroke-width="2" />
+            <text x="1037" y="120" font-family="IBM Plex Sans,sans-serif" font-weight="700" font-size="11"
+              fill="#B03A2E" text-anchor="middle">Write</text>
+            <text x="1037" y="137" font-family="IBM Plex Sans,sans-serif" font-weight="700" font-size="11"
+              fill="#B03A2E" text-anchor="middle">PDF</text>
+            <text x="1037" y="151" font-family="IBM Plex Mono,monospace" font-size="10" fill="#E2574C"
+              text-anchor="middle"></text>
+          </g>
+        </svg>
+      </div>
+
+      <!-- ===== TWO INFO BLOCKS BELOW ===== -->
+      <div class="agent-def-grid" style="grid-template-columns: 1fr 1fr; gap: 1.8rem;">
+        <div class="agent-def-card">
+          <h3><span class="dot amber"></span> Sequential Agent Workflow</h3>
+          <p>Our platform uses a <strong>sequential process</strong> rather than a hierarchical one. An
+            <strong>Organizer Agent</strong> receives the initial RFP questions and structures them. The work is then
+            handed to the <strong>Drafter Agent</strong> which generates grounded answers — creating a clear,
+            predictable pipeline with no complex orchestration loops.
+          </p>
+        </div>
+        <div class="agent-def-card">
+          <h3><span class="dot green"></span> External MCP Integration</h3>
+          <p>Instead of hardcoding actions, our agents use the <strong>Model Context Protocol (MCP)</strong> to safely
+            reach external data and execute tools. If the Drafter's answer confidence is low, it
+            <strong>re-retrieves</strong> from Qdrant automatically before finalizing — ensuring accuracy without human
+            intervention.
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+
+  <!-- ============ CORE PLATFORM CAPABILITIES ============ -->
+  <section class="on-tint reveal">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Platform Engines &amp; Capabilities</span>
+        <h2>Six core components powering <span>the RFP Intelligence pipeline</span>.</h2>
+        <p>From LiteLLM traffic routing and budget controls to hybrid data ingestion — every component works together to
+          produce grounded, accurate RFP responses.</p>
+      </div>
+      <div class="cap-grid" style="grid-template-columns: repeat(3, 1fr);">
+
+        <div class="cap-card">
+          <div class="dot-title"><span class="dot amber"></span>
+            <h3>Budget &amp; Observability</h3>
+          </div>
+          <p>Checks available spend before every request and logs complete records of provider usage, cost, and latency.
+            Backed by Redis to enforce monthly ceilings.</p>
+          <div class="impact"><b>Business impact:</b> predictable AI spend and complete visibility.</div>
+        </div>
+
+        <div class="cap-card">
+          <div class="dot-title"><span class="dot green"></span>
+            <h3>Adaptive Load Balancer</h3>
+          </div>
+          <p>Watches live latency, error rate, and traffic load for every provider and steers each new request toward
+            whichever one is performing best right now, instead of rotating blindly.</p>
+          <div class="impact"><b>Business impact:</b> faster responses, fewer dead ends.</div>
+        </div>
+
+        <div class="cap-card">
+          <div class="dot-title"><span class="dot red"></span>
+            <h3>Smart Routing &amp; Fallback</h3>
+          </div>
+          <p>Reads incoming prompts to match tasks to the best-suited provider, and automatically falls back to the
+            next-best option if an outage or rate limit occurs.</p>
+          <div class="impact"><b>Business impact:</b> optimal answers and continuous uptime.</div>
+        </div>
+
+        <div class="cap-card">
+          <div class="dot-title"><span class="dot steel"></span>
+            <h3>Redis Persistence</h3>
+          </div>
+          <p>A fast, shared memory layer holding the numbers every other component needs instantly — budget counters,
+            provider state, usage data — so decisions happen in milliseconds.</p>
+          <div class="impact"><b>Business impact:</b> the system stays fast as usage grows.</div>
+        </div>
+
+        <div class="cap-card">
+          <div class="dot-title"><span class="dot amber"></span>
+            <h3>Sequential Agentic Loop</h3>
+          </div>
+          <p>Our agents execute a linear pipeline. The Organizer structures work and passes it to the Drafter, ensuring
+            a predictable, repeatable process without complex hierarchical loops.</p>
+          <div class="impact"><b>Business impact:</b> reliable, review-ready drafts.</div>
+        </div>
+
+        <div class="cap-card">
+          <div class="dot-title"><span class="dot green"></span>
+            <h3>Hybrid Data Ingestion</h3>
+          </div>
+          <p>Processes PDF documents into chunks and stores them in Qdrant with both dense (OpenAI) and sparse (BM25)
+            vectors for highly accurate hybrid search retrieval.</p>
+          <div class="impact"><b>Business impact:</b> grounded answers based on exact company knowledge.</div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FLOW DIAGRAM ============ -->
+  <section class="on-tint reveal">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">The full picture</span>
+        <h2>What happens, in order, on every <span>single gateway request</span>.</h2>
+        <p>Every subagent LLM call triggers this exact flow. Hover or tap any block for a plain-English explanation.</p>
+      </div>
+
+      <div class="hint-mobile">Scroll sideways to see the full diagram →</div>
+
+      <div class="diagram-wrap">
+        <svg viewBox="0 0 1320 1330" width="1320" height="1330" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <marker id="arrow-steel" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7"
+              orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="#4C608A" />
+            </marker>
+            <marker id="arrow-amber" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7"
+              orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="#C47A2B" />
+            </marker>
+            <marker id="arrow-red" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7"
+              orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="#D14338" />
+            </marker>
+            <marker id="arrow-green" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7"
+              orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="#1E8E62" />
+            </marker>
+          </defs>
+
+          <!-- NEW FLOW TOPOLOGY -->
+
+          <!-- User Application -->
+          <g class="node" tabindex="0" data-title="User Application">
+            <rect x="730" y="50" width="220" height="60" rx="10" fill="#FDF3E7" stroke="#C47A2B" stroke-width="2" />
+            <text x="840" y="86" text-anchor="middle" fill="#9C5F1F" font-family="IBM Plex Sans,sans-serif"
+              font-weight="600" font-size="16">User Application</text>
+          </g>
+
+          <!-- RFP Generator -->
+          <g class="node" tabindex="0" data-title="RFP Generator">
+            <rect x="530" y="150" width="220" height="60" rx="10" fill="#EBF0F8" stroke="#6E93C8" stroke-width="2" />
+            <text x="640" y="186" text-anchor="middle" fill="#38507A" font-family="IBM Plex Sans,sans-serif"
+              font-weight="600" font-size="16">RFP Generator</text>
+          </g>
+
+          <!-- Previous Data -->
+          <g class="node" tabindex="0" data-title="Previous Data">
+            <rect x="930" y="150" width="220" height="60" rx="10" fill="#E8F5EE" stroke="#52B788" stroke-width="2" />
+            <text x="1040" y="186" text-anchor="middle" fill="#167952" font-family="IBM Plex Sans,sans-serif"
+              font-weight="600" font-size="16">Previous Data</text>
+          </g>
+
+          <!-- Data Deletion -->
+          <g class="node" tabindex="0" data-title="Data Deletion">
+            <rect x="800" y="250" width="200" height="60" rx="10" fill="#FDF2F1" stroke="#E2574C" stroke-width="2" />
+            <text x="900" y="286" text-anchor="middle" fill="#B03A2E" font-family="IBM Plex Sans,sans-serif"
+              font-weight="600" font-size="16">Data Deletion</text>
+          </g>
+
+          <!-- Data Ingestion -->
+          <g class="node" tabindex="0" data-title="Data Ingestion">
+            <rect x="1050" y="250" width="200" height="60" rx="10" fill="#E8F5EE" stroke="#52B788" stroke-width="2" />
+            <text x="1150" y="286" text-anchor="middle" fill="#167952" font-family="IBM Plex Sans,sans-serif"
+              font-weight="600" font-size="16">Data Ingestion</text>
+          </g>
+
+          <!-- CONNECTORS FOR NEW FLOW -->
+          <!-- User App -> RFP Generator -->
+          <path class="path-solid" marker-end="url(#arrow-steel)" stroke="#A8B0C4" stroke-width="2" fill="none"
+            d="M840,110 L840,130 L640,130 L640,145" />
+
+          <!-- User App -> Learning Data -->
+          <path class="path-solid" marker-end="url(#arrow-steel)" stroke="#A8B0C4" stroke-width="2" fill="none"
+            d="M840,110 L840,130 L1040,130 L1040,145" />
+
+          <!-- Learning Data -> Data Deletion -->
+          <path class="path-solid" marker-end="url(#arrow-steel)" stroke="#A8B0C4" stroke-width="2" fill="none"
+            d="M1040,210 L1040,230 L900,230 L900,245" />
+
+          <!-- Learning Data -> Data Ingestion -->
+          <path class="path-solid" marker-end="url(#arrow-steel)" stroke="#A8B0C4" stroke-width="2" fill="none"
+            d="M1040,210 L1040,230 L1150,230 L1150,245" />
+
+          <!-- RFP Generator -> RFP Agents Pipeline -->
+          <path class="path-solid" marker-end="url(#arrow-steel)" stroke="#A8B0C4" stroke-width="2" fill="none"
+            d="M640,210 L640,325" />
+
+          <g id="existing-flow" transform="translate(0, 320)">
+            <!-- RFP AGENTS PIPELINE (Replaces old User Application) -->
+            <g class="node" tabindex="0" data-title="RFP Agents Pipeline"
+              data-desc="Coordinates Organizer and Drafter agents before calling the gateway.">
+              <rect x="520" y="10" width="240" height="60" rx="10" fill="#EBF0F8" stroke="#38507A" stroke-width="2" />
+              <text class="ntitle" x="640" y="36" text-anchor="middle" fill="#16203A">RFP Agents Pipeline</text>
+              <text class="nsub" x="640" y="54" text-anchor="middle" fill="#6E93C8">CrewAI sequential
+                orchestration</text>
+            </g>
+
+            <!-- BAND: LLM GATEWAY (Wraps the entire gateway process) -->
+            <rect x="15" y="5" width="1290" height="1000" rx="16" fill="transparent" stroke="#1E8E62"
+              stroke-dasharray="8 6" stroke-width="2" />
+            <text class="band-label" x="35" y="35" fill="#1E8E62" font-size="14" font-weight="600"
+              style="color: #1E8E62;">LLM Gateway</text>
+
+            <!-- BAND A: PRE-FLIGHT -->
+            <rect class="band-rect" x="30" y="100" width="1260" height="170" rx="14" />
+            <text class="band-label" x="54" y="125">Pre-Flight Checks</text>
+
+            <g class="node" tabindex="0" data-title="Gateway Entry"
+              data-desc="The single entry point every request passes through, regardless of which provider eventually handles it.">
+              <rect class="shell" x="60" y="140" width="200" height="70" rx="10" />
+              <text class="ntitle" x="160" y="170" text-anchor="middle">Gateway Entry</text>
+              <text class="nsub" x="160" y="188" text-anchor="middle">request enters the gateway</text>
+            </g>
+
+            <g class="node" tabindex="0" data-title="Budget Tracker"
+              data-desc="Confirms the monthly $50 spending ceiling hasn't been reached before allowing the request to proceed. Backed by Redis, tracked globally.">
+              <rect class="shell" x="300" y="140" width="230" height="70" rx="10" />
+              <text class="ntitle" x="415" y="170" text-anchor="middle">Budget Tracker</text>
+              <text class="nsub" x="415" y="188" text-anchor="middle">$50/mo cap · Redis-backed</text>
+            </g>
+
+            <g class="node" tabindex="0" data-title="Rate Limiter"
+              data-desc="Caps how many tokens or requests can be sent in a given time window, protecting infrastructure from abuse or runaway loops.">
+              <rect class="shell" x="570" y="140" width="210" height="70" rx="10" />
+              <text class="ntitle" x="675" y="170" text-anchor="middle">Rate Limiter</text>
+              <text class="nsub" x="675" y="188" text-anchor="middle">token usage per time window</text>
+            </g>
+
+            <g class="node blocked" tabindex="0" data-title="Budget or Rate Limit Exceeded"
+              data-desc="If either pre-flight check fails, the request never reaches a model. An error is returned immediately, and no cost is incurred.">
+              <rect class="shell" x="860" y="140" width="400" height="70" rx="10" />
+              <text class="ntitle" x="1060" y="166" text-anchor="middle" fill="#B03A2E">Budget / Rate Limit
+                Exceeded</text>
+              <text class="nsub" x="1060" y="186" text-anchor="middle" fill="#C05046">request blocked · error returned
+                immediately</text>
+            </g>
+
+            <!-- BAND B: ROUTING -->
+            <rect class="band-rect" x="30" y="300" width="1260" height="230" rx="14" />
+            <text class="band-label" x="54" y="324">Dynamic Routing &amp; Scoring</text>
+
+            <g class="node" tabindex="0" data-title="Task Classifier"
+              data-desc="Reads the prompt and identifies what kind of task it is — coding, reasoning, summarizing, or general conversation — so routing can be task-aware.">
+              <rect class="shell" x="40" y="345" width="210" height="75" rx="10" />
+              <text class="ntitle" x="145" y="376" text-anchor="middle">Task Classifier</text>
+              <text class="nsub" x="145" y="394" text-anchor="middle">coding · reasoning · summary · general</text>
+            </g>
+
+            <g class="node" tabindex="0" data-title="Composite Scorer"
+              data-desc="Combines four weighted factors into a single score per provider, so the router always picks the best overall option, not just the cheapest or the fastest.">
+              <rect class="shell" x="280" y="345" width="280" height="130" rx="10" />
+              <text class="ntitle" x="420" y="372" text-anchor="middle">Composite Scorer</text>
+              <g class="chip">
+                <rect x="295" y="392" width="120" height="28" rx="6" /><text x="355" y="410"
+                  text-anchor="middle">Quality
+                  — 38%</text>
+              </g>
+              <g class="chip">
+                <rect x="425" y="392" width="120" height="28" rx="6" /><text x="485" y="410" text-anchor="middle">Cost —
+                  46%</text>
+              </g>
+              <g class="chip">
+                <rect x="295" y="428" width="120" height="28" rx="6" /><text x="355" y="446"
+                  text-anchor="middle">Latency
+                  — 20%</text>
+              </g>
+              <g class="chip">
+                <rect x="425" y="428" width="120" height="28" rx="6" /><text x="485" y="446"
+                  text-anchor="middle">Success
+                  — 16%</text>
+              </g>
+            </g>
+
+            <g class="node" tabindex="0" data-title="Primary Router"
+              data-desc="Maintains live scores for each provider based on the four factors.">
+              <rect class="shell" x="590" y="330" width="160" height="145" rx="10" stroke="#C47A2B" />
+              <text class="ntitle" x="670" y="355" text-anchor="middle" fill="#9C5F1F">Primary Router</text>
+              <text x="630" y="380" text-anchor="middle" fill="#5C6275" font-size="11.5">Model</text>
+              <text x="710" y="380" text-anchor="middle" fill="#5C6275" font-size="11.5">Score</text>
+              <line x1="600" y1="390" x2="740" y2="390" stroke="#D0C8B6" stroke-width="1" />
+              <line x1="600" y1="420" x2="740" y2="420" stroke="#D0C8B6" stroke-width="1" />
+              <line x1="600" y1="450" x2="740" y2="450" stroke="#D0C8B6" stroke-width="1" />
+              <line x1="670" y1="365" x2="670" y2="470" stroke="#D0C8B6" stroke-width="1" />
+              <text x="630" y="410" text-anchor="middle" fill="#161D31" font-size="12">Model 1</text>
+              <text x="710" y="410" text-anchor="middle" fill="#161D31" font-size="12">96.8</text>
+              <text x="630" y="440" text-anchor="middle" fill="#161D31" font-size="12">Model 2</text>
+              <text x="710" y="440" text-anchor="middle" fill="#161D31" font-size="12">93.45</text>
+              <text x="630" y="470" text-anchor="middle" fill="#161D31" font-size="12">Model 3</text>
+              <text x="710" y="470" text-anchor="middle" fill="#161D31" font-size="12">89.98</text>
+            </g>
+
+            <g class="node" tabindex="0" data-title="Adaptive Load Balancer"
+              data-desc="Takes the score for every provider and checks current health before making the final pick, skipping anything degraded or unhealthy.">
+              <rect class="shell" x="780" y="345" width="220" height="75" rx="10" />
+              <text class="ntitle" x="890" y="376" text-anchor="middle">Adaptive Load Balancer</text>
+              <text class="nsub" x="890" y="394" text-anchor="middle">scores live latency, errors, load</text>
+            </g>
+
+            <g class="legend-card" tabindex="0" data-title="Provider Health States"
+              data-desc="Every provider is continuously classified so the load balancer always knows who is safe to route to.">
+              <rect class="shell" x="1030" y="330" width="250" height="145" rx="10" />
+              <text class="lc-title" x="1050" y="354">Provider Health States</text>
+              <circle cx="1052" cy="378" r="6" fill="#1E8E62" /><text x="1068" y="382">Healthy — eligible for
+                routing</text>
+              <circle cx="1052" cy="408" r="6" fill="#C47A2B" /><text x="1068" y="412">Degraded — deprioritized</text>
+              <circle cx="1052" cy="438" r="6" fill="#D14338" /><text x="1068" y="442">Unhealthy — skipped
+                entirely</text>
+            </g>
+
+            <!-- BAND C: PROVIDERS -->
+            <rect class="band-rect" x="30" y="560" width="1260" height="190" rx="14" />
+            <text class="band-label" x="54" y="584">Model Selection</text>
+
+            <g class="node" tabindex="0" data-title="Model 1 — Primary"
+              data-desc="The default choice when healthy: fast and cost-efficient, so most requests never need a fallback.">
+              <rect class="shell" x="110" y="605" width="280" height="90" rx="10" stroke="#1E8E62" />
+              <text class="ntitle" x="250" y="640" text-anchor="middle">Model 1</text>
+              <text class="nsub" x="250" y="658" text-anchor="middle">primary · fast &amp; cost-efficient</text>
+              <text class="nsub" x="250" y="674" text-anchor="middle" fill="#1E8E62">● healthy</text>
+            </g>
+
+            <g class="node" tabindex="0" data-title="Model 2 — Fallback 1"
+              data-desc="Engaged automatically the moment Model 1 is degraded, unhealthy, or returns an error.">
+              <rect class="shell" x="520" y="605" width="280" height="90" rx="10" stroke="#C47A2B" />
+              <text class="ntitle" x="660" y="640" text-anchor="middle">Model 2</text>
+              <text class="nsub" x="660" y="658" text-anchor="middle">fallback 1</text>
+              <text class="nsub" x="660" y="674" text-anchor="middle" fill="#9C5F1F">used if Model 1 struggles</text>
+            </g>
+
+            <g class="node" tabindex="0" data-title="Model 2 — Fallback 2"
+              data-desc="The final attempt in the chain, used only if both Models fail to respond successfully.">
+              <rect class="shell" x="930" y="605" width="280" height="90" rx="10" stroke="#C47A2B" />
+              <text class="ntitle" x="1070" y="640" text-anchor="middle">Model 3</text>
+              <text class="nsub" x="1070" y="658" text-anchor="middle">fallback 2</text>
+              <text class="nsub" x="1070" y="674" text-anchor="middle" fill="#9C5F1F">last attempt in the chain</text>
+            </g>
+
+            <!-- BAND D: POST-FLIGHT -->
+            <rect class="band-rect" x="30" y="780" width="1260" height="200" rx="14" />
+            <text class="band-label" x="54" y="804">Post-Flight Processing</text>
+
+            <g class="node" tabindex="0" data-title="Cost Calculation"
+              data-desc="Translates the actual tokens used into a dollar cost, the figure that feeds straight back into the Budget Tracker.">
+              <rect class="shell" x="90" y="825" width="220" height="75" rx="10" />
+              <text class="ntitle" x="200" y="858" text-anchor="middle">Cost Calculation</text>
+              <text class="nsub" x="200" y="876" text-anchor="middle">tokens → dollars</text>
+            </g>
+
+            <g class="node" tabindex="0" data-title="Redis Persistence"
+              data-desc="Writes the updated budget counters and provider state back to shared memory so the next request has fresh data instantly.">
+              <rect class="shell" x="380" y="825" width="240" height="75" rx="10" />
+              <text class="ntitle" x="500" y="858" text-anchor="middle">Redis Persistence</text>
+              <text class="nsub" x="500" y="876" text-anchor="middle">budget counters · provider state</text>
+            </g>
+
+            <g class="node" tabindex="0" data-title="Metrics Logger"
+              data-desc="Records latency, cost, and usage for this request so the team has full visibility into platform behavior over time.">
+              <rect class="shell" x="690" y="825" width="240" height="75" rx="10" />
+              <text class="ntitle" x="810" y="858" text-anchor="middle">Metrics Logger</text>
+              <text class="nsub" x="810" y="876" text-anchor="middle">latency · cost · usage</text>
+            </g>
+
+            <g class="node" tabindex="0" data-title="Response Validation"
+              data-desc="A final check on the response before it's handed back, confirming it's well-formed and complete.">
+              <rect class="shell" x="1000" y="825" width="250" height="75" rx="10" />
+              <text class="ntitle" x="1125" y="858" text-anchor="middle">Response Validation</text>
+              <text class="nsub" x="1125" y="876" text-anchor="middle">final check before return</text>
+            </g>
+
+            <!-- ===== CONNECTORS ===== -->
+            <!-- user -> gateway -->
+            <path class="path-solid" marker-end="url(#arrow-steel)" d="M640,70 L640,115 L160,115 L160,140" />
+            <!-- gateway -> budget -->
+            <path class="path-solid" marker-end="url(#arrow-steel)" d="M260,175 L300,175" />
+            <!-- budget -> rate -->
+            <path class="path-solid" marker-end="url(#arrow-steel)" d="M530,175 L570,175" />
+            <!-- rate -> classifier -->
+            <path class="path-solid" marker-end="url(#arrow-steel)" d="M675,210 L675,260 L145,260 L145,345" />
+            <!-- budget -> blocked -->
+            <path class="path-blocked" marker-end="url(#arrow-red)" d="M415,210 L415,230 L860,230 L860,178" />
+            <!-- blocked -> user (short circuit) -->
+            <path class="path-blocked" marker-end="url(#arrow-red)" d="M1060,140 C1060,60 900,30 762,38" />
+            <text class="path-label" x="900" y="100" fill="#D14338"></text>
+
+            <!-- classifier -> scorer -->
+            <path class="path-solid" marker-end="url(#arrow-steel)" d="M250,382 L280,382" />
+            <!-- scorer -> model scores -->
+            <path class="path-solid" style="stroke: #C47A2B;" marker-end="url(#arrow-amber)" d="M560,382 L590,382" />
+            <!-- model scores -> LB -->
+            <path class="path-solid" style="stroke: #C47A2B;" marker-end="url(#arrow-amber)" d="M750,382 L780,382" />
+
+            <!-- model scores -> model 1 -->
+            <path class="path-solid" style="stroke: #C47A2B;" marker-end="url(#arrow-amber)"
+              d="M640,475 L640,540 L250,540 L250,605" />
+
+            <!-- LB -> model scores feedback -->
+            <path class="path-solid" style="stroke: #1E8E62;" marker-end="url(#arrow-green)"
+              d="M890,420 L890,490 L700,490 L700,480" />
+
+            <!-- groq -> openai fallback -->
+            <path class="path-fallback" marker-end="url(#arrow-amber)" d="M390,650 L520,650" />
+            <text class="path-label" x="455" y="640" text-anchor="middle">on failure / timeout</text>
+            <!-- openai -> gemini fallback -->
+            <path class="path-fallback" marker-end="url(#arrow-amber)" d="M800,650 L930,650" />
+            <text class="path-label" x="865" y="640" text-anchor="middle">still failing</text>
+
+            <!-- providers -> bus -> cost calc -->
+            <path class="path-bus" d="M250,695 L250,750" />
+            <path class="path-bus" d="M660,695 L660,750" />
+            <path class="path-bus" d="M1070,695 L1070,750" />
+            <path class="path-bus" d="M250,750 L1070,750" />
+            <text class="path-label" x="660" y="745" text-anchor="middle">successful response</text>
+            <path class="path-solid" marker-end="url(#arrow-steel)" d="M660,750 L660,790 L200,790 L200,825" />
+
+            <!-- cost -> redis -> metrics -> validation -->
+            <path class="path-solid" marker-end="url(#arrow-steel)" d="M310,862 L380,862" />
+            <path class="path-solid" marker-end="url(#arrow-steel)" d="M620,862 L690,862" />
+            <path class="path-solid" marker-end="url(#arrow-steel)" d="M930,862 L1000,862" />
+
+            <!-- validation -> back to user -->
+            <path class="path-return" marker-end="url(#arrow-steel)" d="M1125,825 C1300,825 1300,40 765,40" />
+            <text class="path-label" x="1180" y="430">validated response returns to caller</text>
+
+          </g>
+        </svg>
+      </div>
+
+      <div class="legend">
+        <span class="key"><span class="swatch solid"></span> primary request path</span>
+        <span class="key"><span class="swatch dash-amber"></span> automatic fallback / retry</span>
+        <span class="key"><span class="swatch dash-red"></span> blocked — budget or rate limit exceeded</span>
+        <span class="key"><span class="swatch dash-steel"></span> validated response returning to caller</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ BUSINESS VALUE ============ -->
+  <section class="on-paper reveal">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">The payoff</span>
+        <h2>What this platform delivers for the <span>business</span>.</h2>
+      </div>
+
+      <!-- Impact stats row - reference style: large muted numbers, light background -->
+      <div
+        style="display:flex; flex-direction:row; flex-wrap:nowrap; gap:0; background:var(--card); border:1px solid var(--line-light); border-radius:20px; overflow-x:auto; margin-bottom:2.8rem; align-items:stretch;">
+
+        <div style="flex:1; min-width:160px; padding:1.8rem 1.2rem; border-right:1px solid var(--line-light);">
+          <div
+            style="font-family:var(--font-mono); font-size:2.2rem; font-weight:700; color:var(--amber-deep); line-height:1;">
+          </div>
+          <div
+            style="font-family:var(--font-sans); font-size:.95rem; font-weight:700; color:var(--text-dark); margin-top:.7rem; line-height:1.2;">
+            Time Saved</div>
+          <div style="font-size:.85rem; color:var(--text-dark-muted); margin-top:.4rem; line-height:1.4;">Manual RFP
+            drafting cut to review &amp; approve.</div>
+        </div>
+
+        <div style="flex:1; min-width:160px; padding:1.8rem 1.2rem; border-right:1px solid var(--line-light);">
+          <div
+            style="font-family:var(--font-mono); font-size:2.2rem; font-weight:700; color:var(--green); line-height:1;">
+          </div>
+          <div
+            style="font-family:var(--font-sans); font-size:.95rem; font-weight:700; color:var(--text-dark); margin-top:.7rem; line-height:1.2;">
+            Grounded</div>
+          <div style="font-size:.85rem; color:var(--text-dark-muted); margin-top:.4rem; line-height:1.4;">Hybrid BM25 +
+            dense retrieval for accurate citations.</div>
+        </div>
+
+
+        <div style="flex:1; min-width:160px; padding:1.8rem 1.2rem; border-right:1px solid var(--line-light);">
+          <div
+            style="font-family:var(--font-mono); font-size:2.2rem; font-weight:700; color:var(--green); line-height:1;">
+          </div>
+          <div
+            style="font-family:var(--font-sans); font-size:.95rem; font-weight:700; color:var(--text-dark); margin-top:.7rem; line-height:1.2;">
+            RAG Precision</div>
+          <div style="font-size:.85rem; color:var(--text-dark-muted); margin-top:.4rem; line-height:1.4;">Hybrid BM25 +
+            Dense over dense-only docs.</div>
+        </div>
+
+        <div style="flex:1; min-width:160px; padding:1.8rem 1.2rem; border-right:1px solid var(--line-light);">
+          <div
+            style="font-family:var(--font-mono); font-size:2.2rem; font-weight:700; color:var(--steel); line-height:1;">
+          </div>
+          <div
+            style="font-family:var(--font-sans); font-size:.95rem; font-weight:700; color:var(--text-dark); margin-top:.7rem; line-height:1.2;">
+            Cost Reduction</div>
+          <div style="font-size:.85rem; color:var(--text-dark-muted); margin-top:.4rem; line-height:1.4;">Dynamic
+            routing vs. fixed OpenAI deployment.</div>
+        </div>
+
+      </div>
+
+      <div class="value-grid">
+        <div class="value-card">
+          <h3>Vendor Independence</h3>
+          <p>The standardized LiteLLM interface means switching, adding, or removing a provider never requires rewriting
+            application code.</p>
+          <div class="value-stat">0 code changes to swap providers</div>
+        </div>
+        <div class="value-card">
+          <h3>Cost &amp; Reliability</h3>
+          <p>Dynamic routing favors efficient providers on cost, while the fallback chain keeps service running through
+            outages — automatically.</p>
+          <div class="value-stat">3-provider fallback chain</div>
+        </div>
+        <div class="value-card">
+          <h3>Operational Visibility</h3>
+          <p>Every request — whether from a human or an autonomous agent — is logged with provider, latency, and cost,
+            turning AI spend into a measured line item.</p>
+          <div class="value-stat">Per-request cost &amp; latency logged</div>
+        </div>
+        <div class="value-card">
+          <h3>Autonomous Task Execution</h3>
+          <p>Complex RFP sections — research, drafting, PDF generation — are handled end-to-end by agents without human
+            intervention at each step.</p>
+          <div class="value-stat">RFP in → Reviewed PDF out</div>
+        </div>
+      </div>
+      <p class="closing-line">The budget ceiling, rate limits, fallback chain, and grounded retrieval are enforced on
+        every single request — automatically, without human configuration.</p>
+    </div>
+  </section>
+
+  <footer>RFP Intelligence — Internal Platform Briefing</footer>
+
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      // scroll reveal
+      const reveals = document.querySelectorAll('.reveal');
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('active'); });
+      }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+      reveals.forEach(r => io.observe(r));
+
+      // progress bar
+      const bar = document.getElementById('progress');
+      window.addEventListener('scroll', () => {
+        const h = document.documentElement;
+        const pct = (h.scrollTop) / (h.scrollHeight - h.clientHeight) * 100;
+        bar.style.width = pct + '%';
+      });
+
+      // count-up stats
+      document.querySelectorAll('.num').forEach(el => {
+        const target = parseInt(el.getAttribute('data-count'), 10);
+        const prefix = el.getAttribute('data-prefix') || '';
+        if (reduced) { el.textContent = prefix + target; return; }
+        let started = false;
+        const obs = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting && !started) {
+              started = true;
+              let cur = 0;
+              const step = Math.max(1, Math.round(target / 30));
+              const tick = () => {
+                cur += step;
+                if (cur >= target) { el.textContent = prefix + target; return; }
+                el.textContent = prefix + cur;
+                requestAnimationFrame(tick);
+              };
+              tick();
+            }
+          });
+        }, { threshold: 0.5 });
+        obs.observe(el);
+      });
+
+      // svg tooltip
+      const tooltip = document.getElementById('svg-tooltip');
+      const ttTitle = tooltip.querySelector('.tt-title');
+      const ttDesc = tooltip.querySelector('.tt-desc');
+      const nodes = document.querySelectorAll('.node, .legend-card');
+
+      function showTip(e, target) {
+        const title = target.getAttribute('data-title');
+        const desc = target.getAttribute('data-desc');
+        if (!title) return;
+        ttTitle.textContent = title;
+        ttDesc.textContent = desc || '';
+        tooltip.classList.add('show');
+        positionTip(e);
+      }
+      function positionTip(e) {
+        const x = (e.clientX !== undefined ? e.clientX : 0) + 16;
+        const y = (e.clientY !== undefined ? e.clientY : 0) + 16;
+        const maxX = window.innerWidth - 280;
+        const maxY = window.innerHeight - 120;
+        tooltip.style.left = Math.min(x, maxX) + 'px';
+        tooltip.style.top = Math.min(y, maxY) + 'px';
+      }
+      function hideTip() { tooltip.classList.remove('show'); }
+
+      nodes.forEach(n => {
+        n.addEventListener('mouseenter', (e) => showTip(e, n));
+        n.addEventListener('mousemove', positionTip);
+        n.addEventListener('mouseleave', hideTip);
+        n.addEventListener('focus', (e) => {
+          const rect = n.getBoundingClientRect();
+          showTip({ clientX: rect.left, clientY: rect.bottom }, n);
+        });
+        n.addEventListener('blur', hideTip);
+      });
+    });
+  </script>
+
+</body>
+
+</html>

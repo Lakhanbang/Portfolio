@@ -4,8 +4,9 @@ import { motion } from "framer-motion";
 
 const skills = [
   { category: "Frontend", items: ["React", "Next.js", "Tailwind CSS", "Framer Motion", "Vite"] },
-  { category: "Backend & Infra", items: ["Node.js", "FastAPI", "Vercel", "Render", "Streamlit", "PostgreSQL", "GeoJSON", "MySQL", "GitHub"] },
-  { category: "AI / ML", items: ["Python", "LangChain", "Plotly", "Hugging Face", "DuckDuckGo API", "LLM Integration"] },
+  { category: "Backend & Infra", items: ["Node.js", "FastAPI", "Vercel", "Render", "Streamlit", "PostgreSQL", "GeoJSON", "MySQL", "GitHub", "Redis", "Budget Enforcement", "Rate Limiting", "Real-time Observability"] },
+  { category: "AI / ML", items: ["Python", "LangChain", "Plotly", "Hugging Face", "DuckDuckGo API", "LLM Integration", "CrewAI", "LiteLLM", "Groq", "OpenAI", "Gemini", "MCP", "Agentic Pipelines", "Adaptive LLM Routing"] },
+  { category: "Retrieval & Data", items: ["Qdrant", "Hybrid Search", "BM25", "Dense Embeddings", "OpenAI Embeddings", "PDF Parsing", "Document Chunking", "RAG", "PDF Generation"] },
 ];
 
 export default function Skills() {
@@ -32,7 +33,7 @@ export default function Skills() {
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {skills.map((group, idx) => (
             <motion.div
               key={idx}

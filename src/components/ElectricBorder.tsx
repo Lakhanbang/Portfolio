@@ -1,5 +1,6 @@
 import { useEffect, useRef, useCallback } from 'react';
 import './ElectricBorder.css';
+import { useVisibleActivity } from '@/hooks/useVisibleActivity';
 
 interface ElectricBorderProps {
   children: React.ReactNode;
@@ -22,6 +23,7 @@ const ElectricBorder = ({
 }: ElectricBorderProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+  const active = useVisibleActivity(containerRef);
   const animationRef = useRef<number | null>(null);
   const timeRef = useRef(0);
   const lastFrameTimeRef = useRef(0);
@@ -138,6 +140,8 @@ const ElectricBorder = ({
   );
 
   useEffect(() => {
+    if (!active) return;
+    lastFrameTimeRef.current = 0;
     const canvas = canvasRef.current;
     const container = containerRef.current;
     if (!canvas || !container) return;
@@ -174,7 +178,7 @@ const ElectricBorder = ({
     const drawElectricBorder = (currentTime: number) => {
       if (!canvas || !ctx) return;
 
-      const deltaTime = (currentTime - lastFrameTimeRef.current) / 1000;
+      const deltaTime = lastFrameTimeRef.current ? Math.min((currentTime - lastFrameTimeRef.current) / 1000, 0.05) : 0;
       timeRef.current += deltaTime * speed;
       lastFrameTimeRef.current = currentTime;
 
@@ -234,7 +238,7 @@ const ElectricBorder = ({
       if (animationRef.current) cancelAnimationFrame(animationRef.current);
       resizeObserver.disconnect();
     };
-  }, [color, speed, chaos, borderRadius, octavedNoise, getRoundedRectPoint]);
+  }, [active, color, speed, chaos, borderRadius, octavedNoise, getRoundedRectPoint]);
 
   const vars = {
     '--electric-border-color': color,
